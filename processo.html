@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Processo — SPUProcessos</title>
+<meta name="description" content="Ficha do processo de trabalho: identificação, situação, fluxo publicado, normas e documentos correlatos.">
+<meta name="author" content="CGGES — Escritório de Processos / SPU">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=Raleway:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: light;
+  --fundo:#f4f5f9; --papel:#ffffff; --tinta:#1c1c1c; --tinta-fraca:#6b7482;
+  --marca:#1b2b85; --marca-clara:#5992ed; --marca-fraca:#e8f0ff;
+  --linha:#e2e6ec; --linha-forte:#c8cdd6;
+  --ok:#2f9e3c; --ok-fraca:#e7f6e9; --atencao:#b07f12; --atencao-fraca:#fdf3dd;
+  --neutro:#5b6572; --neutro-fraca:#eef0f4;
+  --sombra:0 1px 2px rgba(15,19,34,.06), 0 8px 24px rgba(15,19,34,.06);
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  color-scheme: dark;
+  --fundo:#0f1322; --papel:#171c2e; --tinta:#e9ecf5; --tinta-fraca:#99a1b8;
+  --marca:#b3c9f7; --marca-clara:#8fb0f2; --marca-fraca:#1a2244;
+  --linha:#2a3146; --linha-forte:#3c445d;
+  --ok:#7fd08a; --ok-fraca:#16281b; --atencao:#e0a05c; --atencao-fraca:#2d2415;
+  --neutro:#99a1b8; --neutro-fraca:#1f2639;
+  --sombra:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.3);
+}}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --fundo:#0f1322; --papel:#171c2e; --tinta:#e9ecf5; --tinta-fraca:#99a1b8;
+  --marca:#b3c9f7; --marca-clara:#8fb0f2; --marca-fraca:#1a2244;
+  --linha:#2a3146; --linha-forte:#3c445d;
+  --ok:#7fd08a; --ok-fraca:#16281b; --atencao:#e0a05c; --atencao-fraca:#2d2415;
+  --neutro:#99a1b8; --neutro-fraca:#1f2639;
+  --sombra:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fundo);color:var(--tinta);
+  font:400 15px/1.55 Raleway,system-ui,-apple-system,"Segoe UI",sans-serif;
+  -webkit-font-smoothing:antialiased}
+a{color:var(--marca)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--marca-clara);outline-offset:2px;border-radius:4px}
+.env{max-width:1060px;margin:0 auto;padding:0 20px}
+
+/* ---- cabeçalho do site ---- */
+header.topo{background:var(--papel);border-bottom:1px solid var(--linha)}
+header.topo .env{padding:16px 20px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
+.marca{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit}
+.marca .nome{font-size:22px;line-height:1.05;letter-spacing:-.01em;color:var(--marca)}
+.marca .nome b{font-weight:800}.marca .nome span{font-weight:400}
+.marca .sub{display:block;font-size:11.5px;color:var(--tinta-fraca);font-weight:600;letter-spacing:.02em}
+.barras{display:flex;align-items:flex-end;gap:2px;height:22px}
+.barras i{width:4px;border-radius:1px;display:block}
+nav.menu{display:flex;flex-wrap:wrap;gap:2px;align-items:center}
+nav.menu a{padding:9px 12px;font-size:14.5px;font-weight:600;text-decoration:none;color:var(--tinta);border-radius:8px}
+nav.menu a:hover{background:var(--neutro-fraca)}
+nav.menu a[aria-current="page"]{color:var(--marca);box-shadow:inset 0 -3px 0 var(--marca-clara)}
+
+/* ---- trilha e título ---- */
+.trilha{font-size:13.5px;color:var(--tinta-fraca);padding-top:22px;display:flex;gap:8px 10px;align-items:center;flex-wrap:wrap}
+.acoes .selos{margin-top:0;margin-left:6px}
+.trilha a{text-decoration:none;font-weight:600}
+.trilha a:hover{text-decoration:underline}
+h1{margin:10px 0 0;font-size:clamp(26px,3.4vw,36px);line-height:1.15;font-weight:800;letter-spacing:-.02em}
+.resumo{margin:12px 0 0;font-size:17px;line-height:1.5;color:var(--tinta-fraca);max-width:68ch}
+.resumo.vazio{font-style:italic}
+.selos{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.selo{display:inline-flex;align-items:center;gap:7px;padding:5px 12px;border-radius:999px;
+  font-size:13px;font-weight:700;border:1px solid transparent}
+.selo i{width:9px;height:9px;border-radius:50%;background:currentColor;flex:0 0 9px}
+.s-ok{color:var(--ok);background:var(--ok-fraca);border-color:color-mix(in srgb,var(--ok) 35%,transparent)}
+.s-and{color:var(--atencao);background:var(--atencao-fraca);border-color:color-mix(in srgb,var(--atencao) 35%,transparent)}
+.s-nao{color:var(--neutro);background:var(--neutro-fraca);border-color:var(--linha-forte)}
+.s-tipo{color:var(--marca);background:var(--marca-fraca);border-color:color-mix(in srgb,var(--marca-clara) 45%,transparent)}
+
+/* ---- ações ---- */
+.acoes{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:9px;min-height:46px;padding:0 20px;border-radius:10px;
+  font:inherit;font-size:14.5px;font-weight:700;text-decoration:none;cursor:pointer;border:1.5px solid transparent}
+.btn-forte{background:var(--marca);color:#fff}
+.btn-forte:hover{filter:brightness(1.12)}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .btn-forte{color:#0f1322} }
+:root[data-theme="dark"] .btn-forte{color:#0f1322}
+.btn-fraco{background:var(--papel);color:var(--tinta);border-color:var(--linha-forte)}
+.btn-fraco:hover{border-color:var(--marca-clara);color:var(--marca)}
+.btn .ver{font-family:"IBM Plex Mono",ui-monospace,monospace;font-weight:500;font-size:12.5px;opacity:.85}
+.nota{margin:14px 0 0;padding:12px 16px;border-left:3px solid var(--linha-forte);background:var(--papel);
+  border-radius:0 8px 8px 0;font-size:14px;color:var(--tinta-fraca);max-width:68ch}
+
+/* ---- blocos ---- */
+.grade{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;margin:30px 0 18px}
+.bloco{background:var(--papel);border:1px solid var(--linha);border-radius:14px;padding:22px;box-shadow:var(--sombra)}
+.bloco.largo{margin-bottom:48px}
+.bloco h2{margin:0 0 16px;font-size:12.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--tinta-fraca)}
+.duas-listas{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:26px 32px}
+.duas-listas h3{margin:0 0 12px;font-size:14px;font-weight:700;color:var(--tinta);
+  padding-bottom:9px;border-bottom:1px solid var(--linha)}
+.uma-linha{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.uma-linha.aberta{white-space:normal;overflow:visible}
+.mais{margin-top:4px;background:none;border:0;padding:0;font:inherit;font-size:12.5px;
+  font-weight:700;color:var(--marca);cursor:pointer;text-decoration:underline}
+dialog{border:0;border-radius:14px;padding:0;max-width:620px;width:calc(100% - 40px);
+  background:var(--papel);color:var(--tinta);box-shadow:0 20px 60px rgba(15,19,34,.35)}
+dialog::backdrop{background:rgba(15,19,34,.5)}
+.dlg{padding:26px}
+.dlg h2{margin:0;font-size:19px;font-weight:800;letter-spacing:-.01em;text-transform:none;color:var(--tinta)}
+.dlg p{margin:14px 0 0;font-size:15.5px;line-height:1.6}
+dl.pares{margin:0;display:grid;gap:14px}
+dl.pares div{display:grid;gap:3px;min-width:0}
+dl.pares dt{font-size:12.5px;font-weight:700;color:var(--tinta-fraca)}
+dl.pares dd{margin:0;font-size:15px;font-weight:600;min-width:0}
+.ausente{color:var(--tinta-fraca);font-weight:400;font-style:italic}
+ul.docs{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+ul.docs li{display:flex;gap:11px;align-items:flex-start}
+ul.docs svg{flex:0 0 18px;margin-top:2px;color:var(--marca-clara)}
+ul.docs a{font-size:14.5px;font-weight:600;text-decoration:none;line-height:1.4}
+ul.docs a:hover{text-decoration:underline}
+ul.docs small{display:block;font-size:12px;font-weight:600;color:var(--tinta-fraca);margin-top:2px}
+.vazio-bloco{margin:0;font-size:14px;color:var(--tinta-fraca);font-style:italic}
+
+/* ---- rodapé ---- */
+footer{border-top:1px solid var(--linha);background:var(--papel)}
+footer .env{padding:26px 20px;display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-between;align-items:baseline}
+footer b{display:block;font-size:14px;font-weight:800;color:var(--tinta)}
+footer span{font-size:13px;color:var(--tinta-fraca)}
+footer .credito small{display:block;font-size:11.5px;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--tinta-fraca);margin-bottom:3px}
+@media (max-width:620px){ .grade{margin-top:24px} .bloco{padding:18px} }
+</style>
+</head>
+<body>
+
+<header class="topo">
+  <div class="env">
+    <a class="marca" href="index.html" aria-label="SPUProcessos — catálogo">
+      <span>
+        <span class="nome"><b>SPU</b><span>Processos</span></span>
+        <span class="sub">Catálogo de Processos de Trabalho</span>
+      </span>
+      <span class="barras" aria-hidden="true">
+        <i style="height:10px;background:var(--marca)"></i>
+        <i style="height:16px;background:var(--ok)"></i>
+        <i style="height:22px;background:var(--atencao)"></i>
+        <i style="height:14px;background:var(--marca-clara)"></i>
+        <i style="height:8px;background:var(--marca)"></i>
+      </span>
+    </a>
+    <nav class="menu" aria-label="Principal">
+      <a href="index.html">Catálogo</a>
+      <a href="painel.html">Painel</a>
+      <a href="index.html#ajuda">Como ler um fluxo</a>
+    </nav>
+  </div>
+</header>
+
+<main class="env" id="ficha"></main>
+
+
+<footer>
+  <div class="env">
+    <span class="credito"><small>Desenvolvido por</small><b>CGGES — Escritório de Processos</b>Secretaria do Patrimônio da União</span>
+    <span>SPUProcessos · Catálogo de Processos de Trabalho</span>
+  </div>
+</footer>
+
+<script>
+const ICONE_EXT = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path></svg>';
+const ICONE_DOC = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><path d="M14 2v6h6"></path></svg>';
+const ICONE_NORMA = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18"></path><path d="M5 7h14"></path><path d="m5 7-2 6a3 3 0 0 0 6 0z"></path><path d="m19 7 2 6a3 3 0 0 1-6 0z"></path><path d="M8 21h8"></path></svg>';
+
+const esc = t => String(t).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const normalizar = t => String(t == null ? "" : t).trim().toLowerCase();
+
+/* Do catálogo para a ficha. A descrição que só repete o nome não é descrição:
+   não entra, do mesmo jeito que já não entrava no modal. */
+function adaptar(r) {
+  return {
+    id: r.id,
+    nome: r.nome,
+    descricao: normalizar(r.descricao) === normalizar(r.nome) ? null : r.descricao,
+    macro: r.macroNome,
+    /* O catálogo mostra gerencial como suporte; a ficha faz igual. */
+    tipo: r.macroTipo === "Finalístico" ? "Finalístico" : "Suporte",
+    unidade: r.unidade,
+    coord: r.dono,
+    mapeado: r.mapeado,
+    validado: r.validado,
+    versao: r.versao,
+    atualizacao: r.atualizacao,
+    fluxo: r.linkWeb,
+    normas: r.legislacao ? [{ t: "Norma relacionada", u: r.legislacao }] : [],
+    artefatos: []
+  };
+}
+
+function selosDe(p) {
+  const classe = p.mapeado === "Mapeado" ? "s-ok" : p.mapeado === "Em andamento" ? "s-and" : "s-nao";
+  return '<span class="selo ' + classe + '"><i></i>' + esc(p.mapeado) + '</span>' +
+         '<span class="selo s-tipo">' + esc(p.tipo) + '</span>';
+}
+
+function par(rotulo, valor) {
+  const v = valor == null || valor === "" ? '<span class="ausente">não informado</span>' : esc(valor);
+  return '<div><dt>' + esc(rotulo) + '</dt><dd>' + v + '</dd></div>';
+}
+
+function lista(itens, icone, vazio) {
+  if (!itens.length) return '<p class="vazio-bloco">' + esc(vazio) + '</p>';
+  return '<ul class="docs">' + itens.map(it =>
+    '<li>' + icone + '<span><a href="' + esc(it.u) + '" target="_blank" rel="noopener">' + esc(it.t) + '</a>' +
+    '<small>MemóriaSPU</small></span></li>').join("") + '</ul>';
+}
+
+function recado(p) {
+  if (p.mapeado === "Não mapeado")
+    return '<p class="nota">Este processo ainda não foi mapeado, por isso não há fluxo publicado.</p>';
+  if (p.mapeado === "Em andamento")
+    return '<p class="nota">O mapeamento deste processo está em andamento. O fluxo será publicado aqui quando ficar pronto.</p>';
+  if (p.fluxo && p.validado !== "Sim")
+    return '<p class="nota">O fluxo está publicado, mas ainda aguarda validação da unidade responsável.</p>';
+  if (!p.fluxo)
+    return '<p class="nota">Este processo está marcado como mapeado, mas o fluxo ainda não tem link publicado.</p>';
+  return "";
+}
+
+function parDescricao(texto) {
+  if (!texto) return '<div><dt>Descrição</dt><dd><span class="ausente">não informada</span></dd></div>';
+  return '<div><dt>Descrição</dt><dd>' +
+    '<span class="uma-linha" id="desc">' + esc(texto) + '</span>' +
+    '<button type="button" class="mais" id="ver-desc" hidden>mais</button></dd></div>';
+}
+
+/* O "mais" só aparece quando o texto de fato não cabe na linha. */
+function prepararDescricao() {
+  const alvo = document.getElementById("desc");
+  const botao = document.getElementById("ver-desc");
+  if (!alvo || !botao) return;
+  if (alvo.scrollWidth - alvo.clientWidth > 1) {
+    botao.hidden = false;
+    botao.onclick = () => {
+      const aberta = alvo.classList.toggle("aberta");
+      botao.textContent = aberta ? "menos" : "mais";
+    };
+  }
+}
+
+function desenhar(p) {
+  document.title = p.nome + " — SPUProcessos";
+  document.getElementById("ficha").innerHTML =
+    '<nav class="trilha" aria-label="Trilha"><a href="index.html">Catálogo</a><span aria-hidden="true">/</span>' +
+      '<span>' + esc(p.macro) + '</span></nav>' +
+    '<h1>' + esc(p.nome) + '</h1>' +
+    '<div class="acoes">' +
+      (p.fluxo
+        ? '<a class="btn btn-forte" href="' + esc(p.fluxo) + '" target="_blank" rel="noopener">' + ICONE_EXT +
+          'Abrir o fluxo' + (p.versao ? '<span class="ver">' + esc(p.versao) + '</span>' : '') + '</a>'
+        : '') +
+      '<a class="btn btn-fraco" href="index.html#ajuda">Como ler um fluxo</a>' +
+      '<span class="selos">' + selosDe(p) + '</span>' +
+    '</div>' +
+    recado(p) +
+    '<div class="grade">' +
+      '<section class="bloco"><h2>Identificação</h2><dl class="pares">' +
+        parDescricao(p.descricao) +
+        par("Macroprocesso", p.macro) +
+        par("Tipo", p.tipo) +
+        par("Unidade responsável", p.unidade) +
+        par("Dono do processo", p.coord) +
+      '</dl></section>' +
+      '<section class="bloco"><h2>Situação</h2><dl class="pares">' +
+        par("Status do mapeamento", p.mapeado) +
+        par("Versão do fluxo", p.versao) +
+        par("Validado", p.validado) +
+        par("Última atualização", p.atualizacao) +
+      '</dl></section>' +
+    '</div>' +
+    '<section class="bloco largo"><h2>Normas e documentos</h2>' +
+      '<div class="duas-listas">' +
+        '<div><h3>Normas relacionadas</h3>' +
+          lista(p.normas, ICONE_NORMA, "Nenhuma norma registrada para este processo.") + '</div>' +
+        '<div><h3>Documentos correlatos</h3>' +
+          lista(p.artefatos, ICONE_DOC, "Nenhum documento registrado para este processo.") + '</div>' +
+      '</div>' +
+    '</section>';
+
+  prepararDescricao();
+}
+
+function avisar(titulo, texto) {
+  document.title = titulo + " — SPUProcessos";
+  document.getElementById("ficha").innerHTML =
+    '<nav class="trilha" aria-label="Trilha"><a href="index.html">Catálogo</a></nav>' +
+    '<h1>' + esc(titulo) + '</h1>' +
+    '<p class="nota">' + esc(texto) + '</p>' +
+    '<div class="acoes"><a class="btn btn-forte" href="index.html">Voltar ao catálogo</a></div>';
+}
+
+(async function abrir() {
+  const id = Number(new URLSearchParams(location.search).get("id"));
+  if (!id) return avisar("Processo não indicado", "Este endereço não diz qual processo abrir. Escolha um no catálogo.");
+  let dados;
+  try {
+    const r = await fetch("processos.json", { cache: "no-cache" });
+    if (!r.ok) throw new Error(r.status);
+    dados = await r.json();
+  } catch (e) {
+    return avisar("Catálogo indisponível", "Não foi possível carregar o catálogo agora. Tente recarregar a página.");
+  }
+  const achado = dados.find(x => x.id === id);
+  if (!achado) return avisar("Processo não encontrado", "Não há processo com este identificador no catálogo.");
+  desenhar(adaptar(achado));
+})();
+</script>
+</body>
+</html>

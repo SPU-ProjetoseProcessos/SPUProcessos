@@ -2,22 +2,30 @@
 
 Catálogo dos processos de trabalho mapeados da Secretaria do Patrimônio da União.
 
-Site estático, sem dependências de servidor: todo o catálogo está no `index.html`.
-Abre também por duplo clique, sem internet, salvo pelas fontes.
+Site estático, sem dependências de servidor. Três páginas e um arquivo de dados.
 
 ## O que tem aqui
 
-- Os processos da base, com busca por nome, código ou descrição e filtros por tipo,
-  macroprocesso, dono, unidade e status do mapeamento.
-- A ficha de cada processo, com identificação, situação e histórico de datas.
-- Link direto para o fluxo publicado de cada processo mapeado.
-- Uma página explicando como ler um fluxo em BPMN, para quem consulta.
+- **`index.html`** — o catálogo: busca por nome, código ou descrição e filtros por tipo,
+  macroprocesso, dono do processo, unidade e status do mapeamento. Traz também a página
+  "Como ler um fluxo", em `index.html#ajuda`.
+- **`processo.html?id=N`** — a ficha de um processo: identificação, situação, fluxo
+  publicado, normas relacionadas e documentos correlatos. É página de verdade, com
+  endereço próprio: dá para guardar, mandar por mensagem e abrir em nova aba.
+- **`painel.html`** — o painel do mapeamento: quanto já tem fluxo publicado, quanto está
+  em elaboração, quanto falta, por diretoria, por dono do processo e por macroprocesso.
+- **`processos.json`** — os dados. As três páginas leem daqui.
 
 ## Como atualizar
 
-O conteúdo vem do export da lista de processos. Hoje os dados estão embutidos no
-`index.html`. Quando o cadastro existir, a ideia é separá-los num `processos.json`
-ao lado, para atualizar o catálogo trocando só o JSON.
+Troque o `processos.json`. Nenhuma página carrega dados embutidos, então atualizar o
+catálogo é trocar um arquivo só.
+
+O `id` de cada processo vem da base de cadastro e **não muda**: é por ele que a ficha é
+endereçada. Nunca renumere.
+
+Por enquanto o JSON é mantido à mão. Quando o cadastro no Supabase cobrir todos os campos,
+um workflow do GitHub Actions passa a gerá-lo a partir da base.
 
 ---
 
