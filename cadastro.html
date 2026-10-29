@@ -1,0 +1,921 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Cadastro — SPUProcessos</title>
+<meta name="description" content="Área da equipe do Escritório de Processos: cadastro dos processos de trabalho da SPU.">
+<meta name="author" content="CGGES — Escritório de Processos / SPU">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=Raleway:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: light;
+  --fundo:#f4f5f9; --papel:#ffffff; --tinta:#1c1c1c; --tinta-fraca:#6b7482;
+  --marca:#1b2b85; --marca-clara:#5992ed; --marca-fraca:#e8f0ff;
+  --linha:#e2e6ec; --linha-forte:#c8cdd6;
+  --ok:#2f9e3c; --ok-fraca:#e7f6e9; --atencao:#b07f12; --atencao-fraca:#fdf3dd;
+  --neutro:#5b6572; --neutro-fraca:#eef0f4;
+  --revisao:#b23b30; --revisao-fraca:#fbeceb;
+  --sombra:0 1px 2px rgba(15,19,34,.06), 0 8px 24px rgba(15,19,34,.06);
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  color-scheme: dark;
+  --fundo:#0f1322; --papel:#171c2e; --tinta:#e9ecf5; --tinta-fraca:#99a1b8;
+  --marca:#b3c9f7; --marca-clara:#8fb0f2; --marca-fraca:#1a2244;
+  --linha:#2a3146; --linha-forte:#3c445d;
+  --ok:#7fd08a; --ok-fraca:#16281b; --atencao:#e0a05c; --atencao-fraca:#2d2415;
+  --neutro:#99a1b8; --neutro-fraca:#1f2639;
+  --revisao:#e07a6e; --revisao-fraca:#2d1917;
+  --sombra:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.3);
+}}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --fundo:#0f1322; --papel:#171c2e; --tinta:#e9ecf5; --tinta-fraca:#99a1b8;
+  --marca:#b3c9f7; --marca-clara:#8fb0f2; --marca-fraca:#1a2244;
+  --linha:#2a3146; --linha-forte:#3c445d;
+  --ok:#7fd08a; --ok-fraca:#16281b; --atencao:#e0a05c; --atencao-fraca:#2d2415;
+  --neutro:#99a1b8; --neutro-fraca:#1f2639;
+  --revisao:#e07a6e; --revisao-fraca:#2d1917;
+  --sombra:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fundo);color:var(--tinta);
+  font:400 15px/1.55 Raleway,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--marca)}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{
+  outline:3px solid var(--marca-clara);outline-offset:2px;border-radius:4px}
+.env{max-width:980px;margin:0 auto;padding:0 20px}
+h1,h2,h3{margin:0;text-wrap:balance}
+[hidden]{display:none !important}
+
+header.topo{background:var(--papel);border-bottom:1px solid var(--linha)}
+header.topo .env{padding:16px 20px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
+.marca{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit}
+.marca .nome{font-size:22px;line-height:1.05;letter-spacing:-.01em;color:var(--marca)}
+.marca .nome b{font-weight:800}.marca .nome span{font-weight:400}
+.marca .sub{display:block;font-size:11.5px;color:var(--tinta-fraca);font-weight:600;letter-spacing:.02em}
+.barras{display:flex;align-items:flex-end;gap:2px;height:22px}
+.barras i{width:4px;border-radius:1px;display:block}
+.quem{display:flex;align-items:center;gap:12px;font-size:13.5px;color:var(--tinta-fraca)}
+
+main{padding:28px 0 56px}
+.bloco{background:var(--papel);border:1px solid var(--linha);border-radius:12px;box-shadow:var(--sombra);
+  padding:22px;margin-bottom:18px}
+.bloco > h2{font-size:16.5px;font-weight:700;margin-bottom:16px}
+
+.btn{display:inline-flex;align-items:center;gap:8px;min-height:42px;padding:0 16px;border-radius:10px;
+  font:inherit;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none;border:1px solid var(--linha-forte);
+  background:var(--papel);color:var(--tinta)}
+.btn:hover{border-color:var(--marca-clara);color:var(--marca)}
+.btn-forte{background:var(--marca);border-color:var(--marca);color:#fff}
+.btn-forte:hover{background:var(--marca-clara);border-color:var(--marca-clara);color:#fff}
+.btn-perigo{color:var(--revisao);border-color:var(--revisao)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.acoes{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.acoes .direita{margin-left:auto;display:flex;gap:10px}
+
+label{display:block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+  color:var(--tinta-fraca);margin-bottom:5px}
+input[type=text],input[type=email],input[type=password],input[type=url],input[type=date],select,textarea{
+  width:100%;font:inherit;font-size:14.5px;color:var(--tinta);background:var(--fundo);
+  border:1px solid var(--linha-forte);border-radius:8px;padding:9px 11px}
+textarea{resize:vertical}
+.grade{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.campo.largo{grid-column:1/-1}
+.obrig{color:var(--revisao)}
+.dica{font-size:12.5px;color:var(--tinta-fraca);margin:5px 0 0;text-transform:none;letter-spacing:0;font-weight:400}
+.radios{display:flex;gap:16px;align-items:center;min-height:42px}
+.radios label{display:inline-flex;align-items:center;gap:7px;margin:0;text-transform:none;letter-spacing:0;
+  font-size:14.5px;font-weight:500;color:var(--tinta)}
+.radios input{margin:0;accent-color:var(--marca)}
+
+.selo{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;border-radius:999px;
+  padding:3px 11px;border:1px solid}
+.s-rascunho{color:var(--atencao);background:var(--atencao-fraca);border-color:var(--atencao)}
+.s-publicado{color:var(--ok);background:var(--ok-fraca);border-color:var(--ok)}
+.s-revisao{color:var(--revisao);background:var(--revisao-fraca);border-color:var(--revisao)}
+
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--tinta-fraca);
+  padding:0 10px 8px;font-weight:700}
+td{padding:11px 10px;border-top:1px solid var(--linha);vertical-align:middle}
+tbody tr:hover{background:var(--fundo)}
+td .nome{font-weight:600}
+td .meta{font-size:12.5px;color:var(--tinta-fraca)}
+.abrir{font:inherit;font-size:14px;font-weight:600;color:var(--marca);background:none;border:0;cursor:pointer;
+  padding:0;text-align:left}
+.abrir:hover{text-decoration:underline}
+
+.fila-busca{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;margin-bottom:16px}
+.fila-busca .campo{flex:1 1 180px}
+.fila-busca .campo.cresce{flex:2 1 260px}
+
+.itens{list-style:none;margin:0 0 12px;padding:0;display:flex;flex-direction:column;gap:8px}
+.itens li{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;background:var(--fundo);
+  border:1px solid var(--linha);border-radius:8px}
+.itens li > span{flex:1;min-width:0}
+.itens b{display:block;font-size:14px;font-weight:600}
+.itens small{font-size:12px;color:var(--tinta-fraca);overflow-wrap:anywhere}
+.tirar{font:inherit;font-size:13px;color:var(--revisao);background:none;border:0;cursor:pointer;flex:none}
+.tirar:hover{text-decoration:underline}
+.vazio{font-size:13.5px;color:var(--tinta-fraca);font-style:italic;margin:0 0 12px}
+
+.pend{border-left:3px solid var(--atencao);padding-left:12px}
+.pend.lacuna{border-color:var(--neutro)}
+
+.recado{font-size:14px;border-radius:10px;padding:12px 14px;margin:0 0 16px}
+.recado.erro{background:var(--revisao-fraca);color:var(--revisao);border:1px solid var(--revisao)}
+.recado.ok{background:var(--ok-fraca);color:var(--ok);border:1px solid var(--ok)}
+.recado.aviso{background:var(--atencao-fraca);color:var(--atencao);border:1px solid var(--atencao)}
+
+#tela-entrar{max-width:380px;margin:40px auto}
+#tela-entrar .campo{margin-bottom:14px}
+
+footer{border-top:1px solid var(--linha);background:var(--papel)}
+footer .env{padding:26px 20px;display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-between;align-items:baseline}
+footer b{display:block;font-size:14px;font-weight:800;color:var(--tinta)}
+footer span{font-size:13px;color:var(--tinta-fraca)}
+footer .credito small{display:block;font-size:11.5px;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--tinta-fraca);margin-bottom:3px}
+</style>
+</head>
+<body>
+
+<header class="topo">
+  <div class="env">
+    <a class="marca" href="index.html" aria-label="SPUProcessos — catálogo">
+      <span>
+        <span class="nome"><b>SPU</b><span>Processos</span></span>
+        <span class="sub">Cadastro — área da equipe</span>
+      </span>
+      <span class="barras" aria-hidden="true">
+        <i style="height:10px;background:var(--marca)"></i>
+        <i style="height:16px;background:var(--ok)"></i>
+        <i style="height:22px;background:var(--atencao)"></i>
+        <i style="height:14px;background:var(--marca-clara)"></i>
+        <i style="height:8px;background:var(--marca)"></i>
+      </span>
+    </a>
+    <div class="quem" id="quem" hidden>
+      <span id="quem-email"></span>
+      <button type="button" class="btn" id="sair">Sair</button>
+    </div>
+  </div>
+</header>
+
+<main class="env">
+  <div id="recado" class="recado" hidden></div>
+
+  <!-- ---------- entrar ---------- -->
+  <section id="tela-entrar" hidden>
+    <div class="bloco">
+      <h2>Entrar</h2>
+      <form id="form-entrar">
+        <div class="campo">
+          <label for="email">E-mail</label>
+          <input type="email" id="email" autocomplete="username" required>
+        </div>
+        <div class="campo">
+          <label for="senha">Senha</label>
+          <input type="password" id="senha" autocomplete="current-password" required>
+        </div>
+        <button class="btn btn-forte" type="submit" id="botao-entrar">Entrar</button>
+      </form>
+      <p class="dica">O cadastro é restrito à equipe do Escritório de Processos. Não há
+        criação de conta por aqui.</p>
+    </div>
+  </section>
+
+  <!-- ---------- lista ---------- -->
+  <section id="tela-lista" hidden>
+    <div class="bloco">
+      <div class="acoes" style="margin-bottom:16px">
+        <h2 style="margin:0">Processos</h2>
+        <div class="direita">
+          <a class="btn" href="painel.html">Ver o painel</a>
+          <button class="btn btn-forte" type="button" id="novo">Listar um processo novo</button>
+        </div>
+      </div>
+
+      <div class="fila-busca">
+        <div class="campo cresce">
+          <label for="busca">Buscar</label>
+          <input type="text" id="busca" placeholder="Nome ou descrição">
+        </div>
+        <div class="campo">
+          <label for="f-estado">Estado</label>
+          <select id="f-estado">
+            <option value="">Todos</option>
+            <option value="rascunho">Rascunho</option>
+            <option value="publicado">Publicado</option>
+            <option value="arquivado">Arquivado</option>
+          </select>
+        </div>
+        <div class="campo">
+          <label for="f-status">Status do mapeamento</label>
+          <select id="f-status">
+            <option value="">Todos</option>
+            <option>Mapeado</option>
+            <option>Em revisão</option>
+            <option>Em andamento</option>
+            <option>Não mapeado</option>
+          </select>
+        </div>
+        <div class="campo">
+          <label for="f-pendencia">Pendência</label>
+          <select id="f-pendencia">
+            <option value="">Todas</option>
+            <option value="com">Só com pendência</option>
+            <option value="sem">Só sem pendência</option>
+          </select>
+        </div>
+      </div>
+
+      <p id="quantos" class="dica"></p>
+      <table>
+        <thead><tr>
+          <th>Processo</th><th>Dono</th><th>Mapeamento</th><th>Estado</th><th>Pendências</th>
+        </tr></thead>
+        <tbody id="corpo"></tbody>
+      </table>
+      <p id="lista-vazia" class="vazio" hidden>Nenhum processo neste recorte.</p>
+    </div>
+  </section>
+
+  <!-- ---------- ficha ---------- -->
+  <section id="tela-ficha" hidden>
+    <div class="bloco">
+      <div class="acoes">
+        <button class="btn" type="button" id="voltar">&lsaquo; Voltar à lista</button>
+        <span id="selos"></span>
+        <div class="direita">
+          <button class="btn" type="button" id="revisao"></button>
+          <button class="btn" type="button" id="publicar"></button>
+          <button class="btn btn-forte" type="button" id="salvar">Salvar</button>
+        </div>
+      </div>
+      <p class="dica" id="carimbo"></p>
+    </div>
+
+    <form id="form-ficha">
+      <div class="bloco">
+        <h2>Identificação</h2>
+        <div class="grade">
+          <div class="campo largo">
+            <label for="nome">Nome do processo <span class="obrig">*</span></label>
+            <input type="text" id="nome" required placeholder="Como o processo é chamado na SPU">
+          </div>
+          <div class="campo largo">
+            <label for="descricao">Descrição <span class="obrig">*</span></label>
+            <textarea id="descricao" rows="3" required placeholder="O que o processo faz, em uma ou duas frases"></textarea>
+            <p class="dica" id="dica-descricao"></p>
+          </div>
+          <div class="campo">
+            <label for="macro">Macroprocesso <span class="obrig">*</span></label>
+            <select id="macro" required></select>
+          </div>
+          <div class="campo">
+            <label for="tipo">Tipo <span class="obrig">*</span></label>
+            <select id="tipo" required>
+              <option value="">Escolha</option>
+              <option>Finalístico</option>
+              <option>Suporte</option>
+              <option>Gerencial</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label for="unidade">Unidade responsável <span class="obrig">*</span></label>
+            <select id="unidade" required></select>
+          </div>
+          <div class="campo">
+            <label for="dono">Dono do processo <span class="obrig">*</span></label>
+            <select id="dono"></select>
+            <p class="dica">"Ligado diretamente à unidade" é resposta, não ausência.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bloco">
+        <h2>Fluxo</h2>
+        <div class="grade">
+          <div class="campo">
+            <label for="status">Status do mapeamento <span class="obrig">*</span></label>
+            <select id="status" required>
+              <option>Não mapeado</option>
+              <option>Em andamento</option>
+              <option>Mapeado</option>
+              <option>Em revisão</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label for="versao">Versão do fluxo</label>
+            <input type="text" id="versao" pattern="V[0-9]+\.[0-9]+" placeholder="V1.0"
+                   title="No formato V1.0 — a letra V, um número, ponto e outro número.">
+          </div>
+          <div class="campo largo">
+            <label for="link">Link do fluxo publicado</label>
+            <input type="url" id="link" placeholder="https://spu-projetoseprocessos.github.io/…">
+          </div>
+          <div class="campo">
+            <label for="publicacao">Publicação do fluxo</label>
+            <input type="date" id="publicacao">
+          </div>
+          <div class="campo">
+            <label for="atualizacao">Atualização do fluxo</label>
+            <input type="date" id="atualizacao">
+            <p class="dica">É esta, ou a de publicação, que a ficha mostra.</p>
+          </div>
+          <div class="campo">
+            <label for="validado">Validado pela unidade</label>
+            <select id="validado">
+              <option value="false">Não</option>
+              <option value="true">Sim</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="bloco">
+        <h2>Normas relacionadas</h2>
+        <ul class="itens" id="lista-normas"></ul>
+        <p class="vazio" id="normas-vazio" hidden>Nenhuma norma registrada.</p>
+        <div class="grade">
+          <div class="campo"><label for="norma-titulo">Título</label>
+            <input type="text" id="norma-titulo" placeholder="Instrução Normativa SPU/MGI nº …"></div>
+          <div class="campo"><label for="norma-url">Link no MemóriaSPU</label>
+            <input type="url" id="norma-url" placeholder="https://memoria-spu.gestao.gov.br/…"></div>
+        </div>
+        <p></p>
+        <button class="btn" type="button" id="add-norma">Acrescentar norma</button>
+      </div>
+
+      <div class="bloco">
+        <h2>Documentos correlatos</h2>
+        <ul class="itens" id="lista-artefatos"></ul>
+        <p class="vazio" id="artefatos-vazio" hidden>Nenhum documento registrado.</p>
+        <div class="grade">
+          <div class="campo"><label for="doc-titulo">Título</label>
+            <input type="text" id="doc-titulo" placeholder="Manual — …"></div>
+          <div class="campo"><label for="doc-url">Link no MemóriaSPU</label>
+            <input type="url" id="doc-url" placeholder="https://memoria-spu.gestao.gov.br/…"></div>
+        </div>
+        <p></p>
+        <button class="btn" type="button" id="add-doc">Acrescentar documento</button>
+        <p class="dica">O PDF do fluxo entra aqui, como documento, depois de publicado no
+          MemóriaSPU.</p>
+      </div>
+
+      <div class="bloco">
+        <h2>Pendências</h2>
+        <ul class="itens" id="lista-pendencias"></ul>
+        <p class="vazio" id="pendencias-vazio" hidden>Nenhuma pendência neste processo.</p>
+        <div class="grade">
+          <div class="campo">
+            <label for="pend-campo">Campo com pendência</label>
+            <select id="pend-campo"></select>
+          </div>
+          <div class="campo">
+            <label for="pend-obs">O que está errado</label>
+            <input type="text" id="pend-obs" placeholder="Em uma frase, para quem for corrigir">
+          </div>
+        </div>
+        <p></p>
+        <button class="btn" type="button" id="add-pendencia">Apontar pendência</button>
+        <p class="dica">Lacuna o painel acha sozinho. Aqui se aponta o campo que está
+          preenchido e errado.</p>
+      </div>
+
+      <div class="bloco">
+        <h2>Só para a equipe</h2>
+        <div class="grade">
+          <div class="campo">
+            <label for="analista">Analista do processo</label>
+            <select id="analista"></select>
+          </div>
+          <div class="campo">
+            <label for="categoria-p">Categoria</label>
+            <div class="radios">
+              <label><input type="radio" name="categoria" id="categoria-p" value="Processo">Processo</label>
+              <label><input type="radio" name="categoria" value="Subprocesso">Subprocesso</label>
+            </div>
+          </div>
+          <div class="campo">
+            <label for="codigo">Código antigo</label>
+            <input type="text" id="codigo" placeholder="F04.001">
+            <p class="dica">Só para quem ainda procura por ele.</p>
+          </div>
+          <div class="campo">
+            <label for="docval">Documento de validação — nº SEI</label>
+            <input type="text" id="docval" inputmode="numeric" placeholder="54999155">
+          </div>
+          <div class="campo">
+            <label for="vigente">Vigência</label>
+            <select id="vigente">
+              <option value="true">Vigente</option>
+              <option value="false">Não vigente</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label for="priorizado">Priorização</label>
+            <select id="priorizado">
+              <option value="false">Não priorizado</option>
+              <option value="true">Priorizado</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label for="inicio">Início do mapeamento</label>
+            <input type="date" id="inicio">
+          </div>
+          <div class="campo">
+            <label for="fim">Conclusão do mapeamento</label>
+            <input type="date" id="fim">
+          </div>
+          <div class="campo largo">
+            <label for="obs">Observações</label>
+            <textarea id="obs" rows="3" placeholder="O que a equipe precisa saber e não cabe nos outros campos"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="bloco">
+        <h2>Histórico</h2>
+        <ul class="itens" id="lista-historico"></ul>
+        <p class="vazio" id="historico-vazio" hidden>Nenhuma alteração registrada.</p>
+      </div>
+    </form>
+  </section>
+</main>
+
+<footer>
+  <div class="env">
+    <span class="credito"><small>Desenvolvido por</small><b>CGGES — Escritório de Processos</b>Secretaria do Patrimônio da União</span>
+    <span>SPUProcessos · Cadastro</span>
+  </div>
+</footer>
+
+<script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/+esm";
+
+/* A chave publicável pode ficar aqui: é para isso que ela existe. Quem protege a
+   base é a RLS — sem sessão, o anônimo só lê o que está publicado, e não escreve
+   nada. A chave de serviço nunca entra numa página. */
+const base = createClient(
+  "https://yamixtmtgeockzxmmnsb.supabase.co",
+  "sb_publishable_8WzmTmKmNaAcxq1MnBqEcg_hgI3ldDm"
+);
+
+const $ = s => document.querySelector(s);
+const esc = t => String(t == null ? "" : t).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const vazio = v => v === "" || v == null;
+const nulo = v => (vazio(v) ? null : v);
+
+const CAMPOS_DA_FICHA = [
+  ["nome", "Nome"], ["descricao", "Descrição"], ["macroprocesso_id", "Macroprocesso"],
+  ["tipo", "Tipo"], ["unidade_id", "Unidade responsável"], ["dono_id", "Dono do processo"],
+  ["status_mapeamento", "Status do mapeamento"], ["link_fluxo", "Link do fluxo"],
+  ["versao", "Versão"], ["validado", "Validado"],
+  ["data_publicacao_fluxo", "Publicação do fluxo"], ["data_atualizacao_fluxo", "Atualização do fluxo"],
+  ["normas", "Normas relacionadas"], ["artefatos", "Documentos correlatos"],
+  ["analista_id", "Analista"], ["categoria", "Categoria"], ["codigo_antigo", "Código antigo"],
+  ["doc_validacao_sei", "Documento de validação"], ["vigente", "Vigência"],
+  ["priorizado", "Priorização"], ["observacoes", "Observações"]
+];
+const ROTULO_CAMPO = Object.fromEntries(CAMPOS_DA_FICHA);
+
+let referencia = { macroprocessos: [], unidades: [], donos: [], analistas: [] };
+let processos = [];
+let pendencias = [];
+let atual = null;          /* o processo aberto */
+let normas = [], artefatos = [], historico = [];
+
+/* ---------- recados ---------- */
+let apagarRecado;
+function recado(texto, tom = "ok") {
+  const caixa = $("#recado");
+  caixa.className = "recado " + tom;
+  caixa.textContent = texto;
+  caixa.hidden = false;
+  clearTimeout(apagarRecado);
+  if (tom !== "erro") apagarRecado = setTimeout(() => { caixa.hidden = true; }, 6000);
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+function limparRecado() { $("#recado").hidden = true; }
+
+function erroDe(e) {
+  if (!e) return "Deu erro e não sei qual.";
+  if (e.message && /Invalid login/i.test(e.message)) return "E-mail ou senha não conferem.";
+  if (e.message && /Failed to fetch/i.test(e.message)) return "Não consegui falar com a base. Veja a conexão.";
+  return e.message || String(e);
+}
+
+/* ---------- telas ---------- */
+function mostrar(tela) {
+  ["entrar", "lista", "ficha"].forEach(t => { $("#tela-" + t).hidden = t !== tela; });
+  window.scrollTo(0, 0);
+}
+
+/* ---------- entrar e sair ---------- */
+$("#form-entrar").addEventListener("submit", async e => {
+  e.preventDefault();
+  const botao = $("#botao-entrar");
+  botao.disabled = true;
+  limparRecado();
+  const { error } = await base.auth.signInWithPassword({
+    email: $("#email").value.trim(), password: $("#senha").value
+  });
+  botao.disabled = false;
+  if (error) { recado(erroDe(error), "erro"); return; }
+  $("#senha").value = "";
+  await abrirAreaLogada();
+});
+
+$("#sair").addEventListener("click", async () => {
+  await base.auth.signOut();
+  location.reload();
+});
+
+/* ---------- carregar ---------- */
+async function abrirAreaLogada() {
+  const { data: { user } } = await base.auth.getUser();
+  if (!user) { mostrar("entrar"); return; }
+  $("#quem").hidden = false;
+  $("#quem-email").textContent = user.email;
+  await carregarReferencia();
+  await carregarProcessos();
+  mostrar("lista");
+}
+
+async function carregarReferencia() {
+  const [macro, unidades, donos, analistas] = await Promise.all([
+    base.from("macroprocessos").select("id,nome").order("nome"),
+    base.from("unidades").select("id,nome,sigla,grupo,ordem").order("ordem"),
+    base.from("donos").select("id,unidade_id,nome,sigla,tipo").order("nome"),
+    base.from("analistas").select("id,nome").eq("ativo", true).order("nome")
+  ]);
+  const erro = [macro, unidades, donos, analistas].find(r => r.error);
+  if (erro) { recado("Não consegui carregar as listas: " + erroDe(erro.error), "erro"); return; }
+  referencia = {
+    macroprocessos: macro.data, unidades: unidades.data,
+    donos: donos.data, analistas: analistas.data
+  };
+  encher("#macro", referencia.macroprocessos.map(m => [m.id, m.nome]), "Escolha");
+  encher("#unidade", referencia.unidades.map(u => [u.id, u.sigla ? u.sigla + " — " + u.nome : u.nome]), "Escolha");
+  encher("#analista", referencia.analistas.map(a => [a.id, a.nome]), "Não informado");
+  encher("#pend-campo", CAMPOS_DA_FICHA, "Escolha o campo");
+}
+
+function encher(seletor, pares, primeiro) {
+  $(seletor).innerHTML = '<option value="">' + esc(primeiro) + "</option>" +
+    pares.map(([v, t]) => '<option value="' + esc(v) + '">' + esc(t) + "</option>").join("");
+}
+
+function encherDonos(unidadeId, escolhido) {
+  const lista = referencia.donos.filter(d => String(d.unidade_id) === String(unidadeId));
+  $("#dono").innerHTML =
+    (lista.length
+      ? '<option value="">Escolha</option>' +
+        lista.map(d => '<option value="' + d.id + '">' +
+          esc(d.sigla ? d.sigla + " — " + d.nome : d.nome) + "</option>").join("")
+      : '<option value="">Escolha</option>') +
+    '<option value="direto">Ligado diretamente à unidade</option>';
+  $("#dono").value = escolhido == null ? "" : String(escolhido);
+}
+
+$("#unidade").addEventListener("change", () => encherDonos($("#unidade").value, null));
+
+async function carregarProcessos() {
+  const [lista, pend] = await Promise.all([
+    base.from("processos")
+      .select("id,nome,descricao,status_mapeamento,estado,dono_id,unidade_id,atualizado_em")
+      .order("nome"),
+    base.from("pendencias").select("processo_id,origem,campo")
+  ]);
+  if (lista.error) { recado("Não consegui carregar os processos: " + erroDe(lista.error), "erro"); return; }
+  processos = lista.data;
+  pendencias = pend.error ? [] : pend.data;
+  desenharLista();
+}
+
+/* ---------- lista ---------- */
+function siglaDono(p) {
+  if (p.dono_id == null) {
+    const u = referencia.unidades.find(x => x.id === p.unidade_id);
+    return "ligado à unidade · " + (u ? u.sigla || u.nome : "");
+  }
+  const d = referencia.donos.find(x => x.id === p.dono_id);
+  const u = referencia.unidades.find(x => x.id === p.unidade_id);
+  return (d ? d.sigla || d.nome : "?") + " / " + (u ? u.sigla || u.nome : "?");
+}
+
+function seloEstado(estado, status) {
+  if (status === "Em revisão") return '<span class="selo s-revisao">Em revisão</span>';
+  if (estado === "publicado") return '<span class="selo s-publicado">Publicado</span>';
+  if (estado === "rascunho") return '<span class="selo s-rascunho">Rascunho</span>';
+  return '<span class="selo">' + esc(estado) + "</span>";
+}
+
+function desenharLista() {
+  const termo = $("#busca").value.trim().toLowerCase();
+  const estado = $("#f-estado").value;
+  const status = $("#f-status").value;
+  const comPendencia = $("#f-pendencia").value;
+  const quantas = id => pendencias.filter(x => x.processo_id === id).length;
+
+  const vistos = processos.filter(p => {
+    if (estado && p.estado !== estado) return false;
+    if (status && p.status_mapeamento !== status) return false;
+    if (comPendencia === "com" && !quantas(p.id)) return false;
+    if (comPendencia === "sem" && quantas(p.id)) return false;
+    if (termo && !((p.nome + " " + (p.descricao || "")).toLowerCase().includes(termo))) return false;
+    return true;
+  });
+
+  $("#corpo").innerHTML = vistos.map(p =>
+    "<tr>" +
+      '<td><button class="abrir" type="button" data-abrir="' + p.id + '">' + esc(p.nome) + "</button></td>" +
+      '<td class="meta">' + esc(siglaDono(p)) + "</td>" +
+      '<td class="meta">' + esc(p.status_mapeamento) + "</td>" +
+      "<td>" + seloEstado(p.estado, p.status_mapeamento) + "</td>" +
+      '<td class="meta">' + (quantas(p.id) || "—") + "</td>" +
+    "</tr>").join("");
+  $("#lista-vazia").hidden = vistos.length > 0;
+  $("#quantos").textContent = vistos.length === processos.length
+    ? processos.length + " processos"
+    : vistos.length + " de " + processos.length + " processos";
+}
+
+["#busca", "#f-estado", "#f-status", "#f-pendencia"].forEach(s =>
+  $(s).addEventListener("input", desenharLista));
+
+$("#corpo").addEventListener("click", e => {
+  const b = e.target.closest("[data-abrir]");
+  if (b) abrirFicha(Number(b.dataset.abrir));
+});
+
+$("#voltar").addEventListener("click", async () => { await carregarProcessos(); mostrar("lista"); });
+$("#novo").addEventListener("click", () => abrirFicha(null));
+
+/* ---------- ficha ---------- */
+async function abrirFicha(id) {
+  limparRecado();
+  if (id == null) {
+    atual = { id: null, estado: "rascunho", status_mapeamento: "Não mapeado",
+              validado: false, vigente: true, priorizado: false, categoria: "Processo" };
+    normas = []; artefatos = []; historico = [];
+    preencherFicha();
+    mostrar("ficha");
+    return;
+  }
+  const [p, n, a, h] = await Promise.all([
+    base.from("processos").select("*").eq("id", id).single(),
+    base.from("processo_normas").select("*").eq("processo_id", id).order("ordem"),
+    base.from("processo_artefatos").select("*").eq("processo_id", id).order("ordem"),
+    base.from("processo_historico").select("campo,de,para,quando").eq("processo_id", id)
+      .order("quando", { ascending: false }).limit(40)
+  ]);
+  if (p.error) { recado("Não consegui abrir o processo: " + erroDe(p.error), "erro"); return; }
+  atual = p.data;
+  normas = n.data || [];
+  artefatos = a.data || [];
+  historico = h.data || [];
+  preencherFicha();
+  mostrar("ficha");
+}
+
+function preencherFicha() {
+  const p = atual;
+  $("#nome").value = p.nome || "";
+  $("#descricao").value = p.descricao || "";
+  $("#macro").value = p.macroprocesso_id || "";
+  $("#tipo").value = p.tipo || "";
+  $("#unidade").value = p.unidade_id || "";
+  encherDonos(p.unidade_id, p.id != null && p.dono_id == null ? "direto" : p.dono_id);
+  $("#status").value = p.status_mapeamento || "Não mapeado";
+  $("#versao").value = p.versao || "";
+  $("#link").value = p.link_fluxo || "";
+  $("#publicacao").value = p.data_publicacao_fluxo || "";
+  $("#atualizacao").value = p.data_atualizacao_fluxo || "";
+  $("#validado").value = String(Boolean(p.validado));
+  $("#analista").value = p.analista_id || "";
+  $("#codigo").value = p.codigo_antigo || "";
+  $("#docval").value = p.doc_validacao_sei || "";
+  $("#vigente").value = String(p.vigente !== false);
+  $("#priorizado").value = String(Boolean(p.priorizado));
+  $("#inicio").value = p.data_inicio_mapeamento || "";
+  $("#fim").value = p.data_fim_mapeamento || "";
+  $("#obs").value = p.observacoes || "";
+  document.querySelectorAll('input[name="categoria"]').forEach(r => {
+    r.checked = r.value === (p.categoria || "Processo");
+  });
+
+  $("#selos").innerHTML = p.id == null
+    ? '<span class="selo s-rascunho">Novo</span>'
+    : seloEstado(p.estado, p.status_mapeamento);
+  $("#publicar").textContent = p.estado === "publicado" ? "Voltar para rascunho" : "Publicar";
+  $("#publicar").hidden = p.id == null;
+  $("#revisao").textContent = p.status_mapeamento === "Em revisão" ? "Tirar de revisão" : "Pôr em revisão";
+  $("#revisao").hidden = p.id == null;
+  $("#revisao").className = "btn" + (p.status_mapeamento === "Em revisão" ? "" : " btn-perigo");
+  $("#carimbo").textContent = p.id == null
+    ? "Seis campos bastam para listar o processo: nome, descrição, macroprocesso, tipo, unidade e dono."
+    : "Registro alterado em " + new Date(p.atualizado_em).toLocaleString("pt-BR");
+
+  const repete = p.descricao && p.nome &&
+    p.descricao.trim().toLowerCase() === p.nome.trim().toLowerCase();
+  $("#dica-descricao").textContent = repete
+    ? "Esta descrição só repete o nome — a ficha vai mostrar “não informada”."
+    : "";
+
+  desenharItens();
+  desenharPendencias();
+  desenharHistorico();
+}
+
+function desenharItens() {
+  const linha = (lista, qual) => lista.map((it, i) =>
+    "<li><span><b>" + esc(it.titulo) + "</b><small>" + esc(it.url) + "</small></span>" +
+    '<button class="tirar" type="button" data-tirar="' + qual + '" data-i="' + i + '">tirar</button></li>').join("");
+  $("#lista-normas").innerHTML = linha(normas, "norma");
+  $("#normas-vazio").hidden = normas.length > 0;
+  $("#lista-artefatos").innerHTML = linha(artefatos, "artefato");
+  $("#artefatos-vazio").hidden = artefatos.length > 0;
+}
+
+function desenharPendencias() {
+  const minhas = atual.id == null ? [] : pendencias.filter(x => x.processo_id === atual.id);
+  $("#lista-pendencias").innerHTML = minhas.map(x =>
+    '<li class="pend ' + (x.origem === "lacuna" ? "lacuna" : "") + '"><span><b>' +
+    esc(ROTULO_CAMPO[x.campo] || x.campo) + "</b><small>" +
+    esc(x.origem === "lacuna" ? "lacuna encontrada pelo sistema" : "apontada pela equipe") +
+    "</small></span></li>").join("");
+  $("#pendencias-vazio").hidden = minhas.length > 0;
+}
+
+function desenharHistorico() {
+  $("#lista-historico").innerHTML = historico.map(h =>
+    "<li><span><b>" + esc(ROTULO_CAMPO[h.campo] || h.campo) + "</b><small>" +
+    (h.campo === "(criado)" ? "listado" : esc(h.de || "vazio") + " → " + esc(h.para || "vazio")) +
+    " · " + new Date(h.quando).toLocaleString("pt-BR") + "</small></span></li>").join("");
+  $("#historico-vazio").hidden = historico.length > 0;
+}
+
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-tirar]");
+  if (!b) return;
+  const lista = b.dataset.tirar === "norma" ? normas : artefatos;
+  lista.splice(Number(b.dataset.i), 1);
+  desenharItens();
+});
+
+function acrescentar(lista, idTitulo, idUrl) {
+  const titulo = $(idTitulo).value.trim();
+  const url = $(idUrl).value.trim();
+  if (!titulo || !url) { recado("Para acrescentar, preencha o título e o link.", "aviso"); return; }
+  lista.push({ titulo, url, ordem: lista.length });
+  $(idTitulo).value = ""; $(idUrl).value = "";
+  desenharItens();
+}
+$("#add-norma").addEventListener("click", () => acrescentar(normas, "#norma-titulo", "#norma-url"));
+$("#add-doc").addEventListener("click", () => acrescentar(artefatos, "#doc-titulo", "#doc-url"));
+
+/* ---------- gravar ---------- */
+function lerFicha() {
+  const dono = $("#dono").value;
+  return {
+    nome: $("#nome").value.trim(),
+    descricao: $("#descricao").value.trim(),
+    macroprocesso_id: nulo($("#macro").value),
+    tipo: nulo($("#tipo").value),
+    unidade_id: nulo($("#unidade").value),
+    dono_id: dono === "direto" || dono === "" ? null : Number(dono),
+    status_mapeamento: $("#status").value,
+    link_fluxo: nulo($("#link").value.trim()),
+    versao: nulo($("#versao").value.trim()),
+    validado: $("#validado").value === "true",
+    data_publicacao_fluxo: nulo($("#publicacao").value),
+    data_atualizacao_fluxo: nulo($("#atualizacao").value),
+    data_inicio_mapeamento: nulo($("#inicio").value),
+    data_fim_mapeamento: nulo($("#fim").value),
+    analista_id: nulo($("#analista").value),
+    categoria: document.querySelector('input[name="categoria"]:checked').value,
+    codigo_antigo: nulo($("#codigo").value.trim()),
+    doc_validacao_sei: nulo($("#docval").value.trim()),
+    vigente: $("#vigente").value === "true",
+    priorizado: $("#priorizado").value === "true",
+    observacoes: nulo($("#obs").value.trim())
+  };
+}
+
+function faltaParaListar(d) {
+  const falta = [];
+  if (!d.nome) falta.push("nome");
+  if (!d.descricao) falta.push("descrição");
+  if (!d.macroprocesso_id) falta.push("macroprocesso");
+  if (!d.tipo) falta.push("tipo");
+  if (!d.unidade_id) falta.push("unidade responsável");
+  if ($("#dono").value === "") falta.push("dono do processo");
+  return falta;
+}
+
+async function salvar() {
+  const d = lerFicha();
+  const falta = faltaParaListar(d);
+  if (falta.length) {
+    recado("Falta preencher: " + falta.join(", ") + ".", "aviso");
+    return false;
+  }
+  $("#salvar").disabled = true;
+  let id = atual.id;
+  if (id == null) {
+    const { data, error } = await base.from("processos")
+      .insert({ ...d, estado: "rascunho" }).select("*").single();
+    $("#salvar").disabled = false;
+    if (error) { recado("Não consegui gravar: " + erroDe(error), "erro"); return false; }
+    atual = data; id = data.id;
+  } else {
+    const { data, error } = await base.from("processos").update(d).eq("id", id).select("*").single();
+    $("#salvar").disabled = false;
+    if (error) { recado("Não consegui gravar: " + erroDe(error), "erro"); return false; }
+    atual = data;
+  }
+  const guardou = await gravarItens(id);
+  if (!guardou) return false;
+  await recarregarFicha(id);
+  recado("Gravado.");
+  return true;
+}
+
+async function gravarItens(id) {
+  for (const [tabela, lista] of [["processo_normas", normas], ["processo_artefatos", artefatos]]) {
+    const { error: apagou } = await base.from(tabela).delete().eq("processo_id", id);
+    if (apagou) { recado("Não consegui gravar os itens: " + erroDe(apagou), "erro"); return false; }
+    if (!lista.length) continue;
+    const { error } = await base.from(tabela)
+      .insert(lista.map((it, i) => ({ processo_id: id, titulo: it.titulo, url: it.url, ordem: i })));
+    if (error) { recado("Não consegui gravar os itens: " + erroDe(error), "erro"); return false; }
+  }
+  return true;
+}
+
+async function recarregarFicha(id) {
+  const [p, n, a, h, pend] = await Promise.all([
+    base.from("processos").select("*").eq("id", id).single(),
+    base.from("processo_normas").select("*").eq("processo_id", id).order("ordem"),
+    base.from("processo_artefatos").select("*").eq("processo_id", id).order("ordem"),
+    base.from("processo_historico").select("campo,de,para,quando").eq("processo_id", id)
+      .order("quando", { ascending: false }).limit(40),
+    base.from("pendencias").select("processo_id,origem,campo")
+  ]);
+  if (!p.error) atual = p.data;
+  normas = n.data || []; artefatos = a.data || []; historico = h.data || [];
+  if (!pend.error) pendencias = pend.data;
+  preencherFicha();
+}
+
+$("#salvar").addEventListener("click", salvar);
+
+/* ---------- publicar, revisar, apontar ---------- */
+$("#publicar").addEventListener("click", async () => {
+  if (!(await salvar())) return;
+  const vaiPublicar = atual.estado !== "publicado";
+  const { error } = await base.from("processos")
+    .update({ estado: vaiPublicar ? "publicado" : "rascunho" }).eq("id", atual.id);
+  if (error) { recado("Não consegui mudar o estado: " + erroDe(error), "erro"); return; }
+  await recarregarFicha(atual.id);
+  recado(vaiPublicar
+    ? "Publicado. Vai ao ar no catálogo em até uma hora."
+    : "Voltou para rascunho. Sai do catálogo na próxima atualização.");
+});
+
+$("#revisao").addEventListener("click", async () => {
+  const entrando = atual.status_mapeamento !== "Em revisão";
+  $("#status").value = entrando ? "Em revisão" : "Mapeado";
+  if (!(await salvar())) return;
+  recado(entrando
+    ? "Em revisão. A ficha passa a esconder a situação e a avisar antes de abrir o fluxo."
+    : "Fora de revisão, de volta a mapeado.");
+});
+
+$("#add-pendencia").addEventListener("click", async () => {
+  if (atual.id == null) { recado("Grave o processo antes de apontar pendência.", "aviso"); return; }
+  const campo = $("#pend-campo").value;
+  const observacao = $("#pend-obs").value.trim();
+  if (!campo || !observacao) { recado("Escolha o campo e escreva o que está errado.", "aviso"); return; }
+  const { data: { user } } = await base.auth.getUser();
+  const { error } = await base.from("processo_pendencia")
+    .insert({ processo_id: atual.id, campo, observacao, apontada_por: user ? user.id : null });
+  if (error) { recado("Não consegui apontar: " + erroDe(error), "erro"); return; }
+  $("#pend-obs").value = "";
+  await recarregarFicha(atual.id);
+  recado("Pendência apontada.");
+});
+
+/* ---------- início ---------- */
+const { data: { session } } = await base.auth.getSession();
+if (session) await abrirAreaLogada(); else mostrar("entrar");
+</script>
+</body>
+</html>
