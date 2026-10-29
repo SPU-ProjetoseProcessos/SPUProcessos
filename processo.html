@@ -233,8 +233,11 @@ function adaptar(r) {
        versão corrente. V1.0 tem a data de publicação; versão refeita, a de atualização. */
     publicacaoFluxo: (r.versao === "V1.0" ? r.publicacaoV1 || r.atualizacao : r.atualizacao || r.publicacaoV1) || null,
     fluxo: r.linkWeb,
-    normas: r.legislacao ? [{ t: "Norma relacionada", u: r.legislacao }] : [],
-    artefatos: []
+    /* As normas e os documentos passam a vir da base, uma linha por item. O
+       campo antigo, que guardava um link só, continua sendo lido enquanto o
+       catálogo não for gerado — assim a ficha não fica vazia no meio do caminho. */
+    normas: r.normas || (r.legislacao ? [{ t: "Norma relacionada", u: r.legislacao }] : []),
+    artefatos: r.artefatos || []
   };
 }
 
