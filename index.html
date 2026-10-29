@@ -170,6 +170,10 @@
   .opcao span { min-width: 0; overflow-wrap: anywhere; }
   .opcao small { margin-left: auto; color: var(--fg-muted); font-size: 12px; font-variant-numeric: tabular-nums; padding-left: 6px; }
   .painel-rodape { border-top: 1px solid var(--border); margin-top: 4px; padding: 6px 8px 2px; }
+  .painel-busca { padding: 2px 4px 6px; border-bottom: 1px solid var(--border); margin-bottom: 4px; }
+  .painel-busca input { width: 100%; font: inherit; font-size: 13.5px; color: var(--fg); background: var(--bg);
+    border: 1px solid var(--border-forte); border-radius: 6px; padding: 6px 9px; }
+  .painel-busca input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
 
   .resumo { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 13px; color: var(--fg-muted); margin-bottom: 12px; }
   .resumo span { font-variant-numeric: tabular-nums; }
@@ -212,6 +216,8 @@
 
   .pilula { display: inline-block; font-size: 10.5px; font-weight: 700; letter-spacing: .055em; text-transform: uppercase; border-radius: 4px; padding: 4px 9px; white-space: nowrap; color: #fff; }
   .pilula-sim { background: var(--ok); } .pilula-meio { background: var(--meio); } .pilula-nao { background: var(--off); }
+  .pilula-revisao { background: #b23b30; }
+  .direto { color: var(--fg-muted); font-style: italic; }
   .pilula-fin { background: var(--fin); } .pilula-sup { background: var(--sup); }
   .pilula-vazia { background: none; color: var(--fg-muted); border: 1px solid var(--border-forte); }
 
@@ -423,7 +429,7 @@ const tipoDe = p => p.macroTipo === "Finalístico" ? "Finalístico" : "Suporte";
 const FILTROS = [
   { id: "tipo",      rotulo: "Tipo",             valor: tipoDe },
   { id: "macroNome", rotulo: "Macroprocesso",    valor: p => p.macroNome },
-  { id: "dono",      rotulo: "Dono do processo", valor: p => p.dono },
+  { id: "dono",      rotulo: "Dono do processo", valor: p => p.dono || SEM_DONO },
   { id: "unidade",   rotulo: "Unidade",          valor: p => p.unidade },
   { id: "mapeado",   rotulo: "Status do mapeamento", valor: p => p.mapeado }
 ];
@@ -431,9 +437,13 @@ const FILTROS = [
 const COLUNAS = [
   { id: "nome",      rotulo: "Processo",         ordena: p => p.nome },
   { id: "macroNome", rotulo: "Macroprocesso",    ordena: p => p.macroNome },
-  { id: "dono",      rotulo: "Dono do processo", ordena: p => p.dono + "/" + p.unidade },
-  { id: "mapeado",   rotulo: "Status do mapeamento", ordena: p => ({ "Mapeado": 0, "Em andamento": 1, "Não mapeado": 2 }[p.mapeado] ?? 3) }
+  { id: "dono",      rotulo: "Dono do processo", ordena: p => (p.dono || "zzz") + "/" + p.unidade },
+  { id: "mapeado",   rotulo: "Status do mapeamento", ordena: p => ({ "Mapeado": 0, "Em revisão": 1, "Em andamento": 2, "Não mapeado": 3 }[p.mapeado] ?? 4) }
 ];
+
+/* Dono vazio não é falta de resposta: quer dizer que o processo responde direto à
+   unidade, sem coordenação-geral no meio. */
+const SEM_DONO = "Ligado diretamente à unidade";
 
 const estado = { busca: "", selecao: {}, aberto: null, ordem: { campo: "nome", asc: true }, tela: "lista" };
 let resultado = [];
@@ -467,6 +477,11 @@ function montarFiltros() {
       '<label id="rot-' + f.id + '">' + esc(f.rotulo) + '</label>' +
       '<button type="button" class="seletor" data-abre="' + f.id + '" aria-expanded="false" aria-labelledby="rot-' + f.id + '">Todos</button>' +
       '<div class="painel" id="painel-' + f.id + '" hidden>' +
+        /* Caixa de busca só onde a lista é longa o bastante para procurar nela. */
+        (opcoes.length >= 10
+          ? '<div class="painel-busca"><input type="search" data-procura="' + f.id +
+            '" placeholder="Procurar em ' + esc(f.rotulo.toLowerCase()) + '" aria-label="Procurar em ' + esc(f.rotulo) + '"></div>'
+          : '') +
         opcoes.map(o => {
           const n = PROCESSOS.filter(p => f.valor(p) === o).length;
           return '<label class="opcao"><input type="checkbox" data-campo="' + f.id + '" value="' + esc(o) + '">' +
@@ -494,6 +509,15 @@ $("#fila-filtros").addEventListener("click", e => {
     document.querySelectorAll('input[data-campo="' + limpa.dataset.limpa + '"]').forEach(i => { i.checked = false; });
     aplicar();
   }
+});
+
+$("#fila-filtros").addEventListener("input", e => {
+  const campo = e.target.dataset.procura;
+  if (!campo) return;
+  const termo = normalizar(e.target.value).trim();
+  $("#painel-" + campo).querySelectorAll(".opcao").forEach(o => {
+    o.hidden = termo && !normalizar(o.querySelector("span").textContent).includes(termo);
+  });
 });
 
 $("#fila-filtros").addEventListener("change", e => {
@@ -605,7 +629,9 @@ $("#busca").addEventListener("input", e => { estado.busca = e.target.value; apli
 
 function pilulaMapeado(m) {
   /* O dado já diz Mapeado / Em andamento / Não mapeado — nada a traduzir aqui. */
-  const classe = m === "Mapeado" ? "pilula-sim" : m === "Em andamento" ? "pilula-meio" : "pilula-nao";
+  const classe = m === "Mapeado" ? "pilula-sim"
+    : m === "Em revisão" ? "pilula-revisao"
+    : m === "Em andamento" ? "pilula-meio" : "pilula-nao";
   return '<span class="pilula ' + classe + '">' + esc(m) + '</span>';
 }
 
@@ -615,13 +641,15 @@ function desenharLista() {
       '<td class="cel-processo">' +
         '<div class="linha-nome"><span class="nome">' + esc(p.nome) + '</span>' +
           '<span class="acoes-linha">' +
-            (p.linkWeb ? '<a class="btn-linha btn-fluxo" href="' + esc(p.linkWeb) + '" target="_blank" rel="noopener">' + ICONE_EXTERNO + 'Abrir fluxo</a>' : '') +
+            (p.linkWeb && p.mapeado !== "Em revisão" ? '<a class="btn-linha btn-fluxo" href="' + esc(p.linkWeb) + '" target="_blank" rel="noopener">' + ICONE_EXTERNO + 'Abrir fluxo</a>' : '') +
             '<a class="btn-linha btn-ver" href="processo.html?id=' + p.id + '">' + ICONE_MAIS + 'Ver mais</a>' +
           '</span>' +
         '</div>' +
       '</td>' +
       '<td class="macro cel-meta" data-rotulo="Macroprocesso">' + esc(p.macroNome) + '<small>' + esc(tipoDe(p)) + '</small></td>' +
-      '<td class="dono cel-meta" data-rotulo="Dono">' + esc(p.dono) + '<em>/' + esc(p.unidade) + '</em></td>' +
+      '<td class="dono cel-meta" data-rotulo="Dono">' +
+        (p.dono ? esc(p.dono) + '<em>/' + esc(p.unidade) + '</em>'
+                : '<span class="direto">direto</span><em>/' + esc(p.unidade) + '</em>') + '</td>' +
       '<td class="cel-meta">' + pilulaMapeado(p.mapeado) + '</td>' +
     '</tr>'
   ).join("");
@@ -636,6 +664,7 @@ function desenharLista() {
     '<span><i class="ponto p-fin"></i><b>' + porTipo("Finalístico") + '</b> finalísticos</span>' +
     '<span><i class="ponto p-sup"></i><b>' + porTipo("Suporte") + '</b> de suporte</span>' +
     '<span><b>' + conta("Mapeado") + '</b> mapeados</span>' +
+    (conta("Em revisão") ? '<span><b>' + conta("Em revisão") + '</b> em revisão</span>' : '') +
     '<span><b>' + conta("Em andamento") + '</b> em andamento</span>' +
     '<span><b>' + conta("Não mapeado") + '</b> não mapeados</span>';
 }
@@ -797,6 +826,32 @@ function rotaInicial() {
   if (achados.length === 1) location.replace("processo.html?id=" + achados[0].id);
 }
 
+/* O painel do mapeamento manda para cá com o recorte já escolhido. Cada filtro
+   aceita o seu próprio nome no endereço, repetido quando houver mais de um valor:
+   index.html?unidade=DEGOV&mapeado=Em%20andamento */
+function lerFiltrosDoEndereco() {
+  const busca = new URLSearchParams(location.search);
+  let achou = false;
+  FILTROS.forEach(f => {
+    const valores = busca.getAll(f.id).filter(Boolean);
+    if (!valores.length) return;
+    estado.selecao[f.id] = valores;
+    achou = true;
+    valores.forEach(v => {
+      const caixa = document.querySelector('input[data-campo="' + f.id + '"][value="' + CSS.escape(v) + '"]');
+      if (caixa) caixa.checked = true;
+    });
+  });
+  const termo = busca.get("busca");
+  if (termo) { estado.busca = termo; $("#busca").value = termo; achou = true; }
+  /* Chegando com filtro aplicado, o painel de filtros abre: senão a lista parece
+     curta sem explicação. */
+  if (achou) {
+    $("#corpo-filtros").hidden = false;
+    $("#alterna-filtros").setAttribute("aria-expanded", "true");
+  }
+}
+
 async function iniciar() {
   try {
     const r = await fetch("processos.json", { cache: "no-cache" });
@@ -811,6 +866,7 @@ async function iniciar() {
   PROCESSOS.sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR", { sensitivity: "base" }));
   PROCESSOS.forEach((p, i) => { p._i = i; });
   montarFiltros();
+  lerFiltrosDoEndereco();
   desenharTrilha();
   aplicar();
   rotaInicial();
