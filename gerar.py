@@ -76,12 +76,11 @@ def montar():
             # sabem ler isso. Não inventar sigla aqui.
             "dono": r["dono_sigla"],
             "categoria": r["categoria"],
-            "vigencia": "Vigente" if r["vigente"] else "Não Vigente",
             "priorizacao": "Priorizado" if r["priorizado"] else "Não priorizado",
             "validado": "Sim" if r["validado"] else "Não",
             "versao": r["versao"],
-            "publicacaoV1": dia(r["data_publicacao_fluxo"]),
-            "atualizacao": dia(r["data_atualizacao_fluxo"]),
+            # Uma data só: publicar um fluxo e atualizar um fluxo são o mesmo ato.
+            "publicacao": dia(r["data_publicacao_fluxo"]),
             "linkWeb": r["link_fluxo"],
             "pdf": r["pdf_fluxo"],
             "normas": itens(normas, r["id"]),
