@@ -423,7 +423,9 @@
 <script>
 let PROCESSOS = [];   /* vem do processos.json, ao lado */
 
-/* Gerencial foi fundido em Suporte na exibição; macroTipo guarda o valor de origem. */
+/* São dois tipos: finalístico e suporte. "Gerencial" existiu no catálogo antigo e
+   foi abandonado por decisão do Escritório em 29/10/2026; a conversão aqui garante
+   que registro velho não apareça com um tipo que não existe mais. */
 const tipoDe = p => p.macroTipo === "Finalístico" ? "Finalístico" : "Suporte";
 
 const FILTROS = [

@@ -76,7 +76,6 @@ def montar():
             # sabem ler isso. Não inventar sigla aqui.
             "dono": r["dono_sigla"],
             "categoria": r["categoria"],
-            "priorizacao": "Priorizado" if r["priorizado"] else "Não priorizado",
             "validado": "Sim" if r["validado"] else "Não",
             "versao": r["versao"],
             # Uma data só: publicar um fluxo e atualizar um fluxo são o mesmo ato.

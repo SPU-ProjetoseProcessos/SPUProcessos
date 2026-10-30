@@ -125,9 +125,19 @@ input:disabled,select:disabled,textarea:disabled{background:transparent;border-c
 
 /* ---- a cor diz o quê: azul mudou, âmbar pende ---- */
 .campo{position:relative;border-radius:8px}
-.campo.mudou{box-shadow:-10px 0 0 -6px var(--marca-clara)}
+/* Ficha que já existe: o que foi mexido grita, porque mexer no que está no ar é
+   o momento que mais pede atenção. */
+.campo.mudou{box-shadow:-12px 0 0 -6px var(--marca)}
 .campo.mudou > label{color:var(--marca)}
-.campo.mudou > label::after{content:" · alterado";font-weight:700;letter-spacing:0;text-transform:none}
+.campo.mudou > label::after{content:"alterado";margin-left:7px;padding:2px 7px;border-radius:5px;
+  background:var(--marca);color:var(--papel);font-size:10px;font-weight:800;letter-spacing:.06em}
+.campo.mudou input,.campo.mudou select,.campo.mudou textarea{border-color:var(--marca)}
+
+/* Ficha nova: não há o que estar "alterado" — há o que falta e o que já foi
+   preenchido. Vermelho vira verde conforme se escreve. */
+.campo.falta > label{color:var(--revisao)}
+.campo.falta input,.campo.falta select,.campo.falta textarea{border-color:var(--revisao);background:var(--revisao-fraca)}
+.campo.pronto input,.campo.pronto select,.campo.pronto textarea{border-color:var(--ok);background:var(--ok-fraca)}
 .campo.pende > label{color:var(--atencao)}
 .campo.pende input,.campo.pende select,.campo.pende textarea{border-color:var(--atencao)}
 
@@ -416,7 +426,6 @@ footer .credito small{display:block;font-size:11.5px;font-weight:700;letter-spac
               <option value="">Escolha</option>
               <option>Finalístico</option>
               <option>Suporte</option>
-              <option>Gerencial</option>
             </select>
           </div>
           <div class="campo" data-campo="unidade_id">
@@ -434,6 +443,8 @@ footer .credito small{display:block;font-size:11.5px;font-weight:700;letter-spac
       <div class="bloco">
         <h2>Fluxo</h2>
         <div class="grade">
+          <p class="dica largo" id="dica-fluxo" style="grid-column:1/-1;margin:0" hidden>Os campos do
+            fluxo aparecem quando o status disser que há fluxo publicado.</p>
           <div class="campo" data-campo="status_mapeamento">
             <label for="status">Status do mapeamento <span class="obrig">*</span></label>
             <select id="status" required>
@@ -538,13 +549,6 @@ footer .credito small{display:block;font-size:11.5px;font-weight:700;letter-spac
             <label for="docval">Documento de validação — nº SEI</label>
             <input type="text" id="docval" inputmode="numeric" placeholder="54999155">
           </div>
-          <div class="campo" data-campo="priorizado">
-            <label for="priorizado">Priorização</label>
-            <select id="priorizado">
-              <option value="false">Não priorizado</option>
-              <option value="true">Priorizado</option>
-            </select>
-          </div>
           <div class="campo largo" data-campo="observacoes">
             <label for="obs">Observações</label>
             <textarea id="obs" rows="3" placeholder="O que a equipe precisa saber e não cabe nos outros campos"></textarea>
@@ -619,11 +623,12 @@ const CAMPOS_DA_FICHA = [
   ["normas", "Normas relacionadas"], ["artefatos", "Documentos correlatos"],
   ["analista_id", "Analista"], ["categoria", "Categoria"], ["codigo_antigo", "Código antigo"],
   ["doc_validacao_sei", "Documento de validação"],
-  ["priorizado", "Priorização"], ["observacoes", "Observações"]
+["observacoes", "Observações"]
 ];
 const ROTULO_CAMPO = Object.fromEntries(CAMPOS_DA_FICHA);
 
 let referencia = { macroprocessos: [], unidades: [], donos: [], analistas: [] };
+let perfis = {};
 let processos = [], pendencias = [];
 let atual = null, normas = [], artefatos = [], apontamentos = [], historico = [];
 let original = null;         /* como a ficha estava quando abriu */
@@ -717,19 +722,25 @@ async function abrirAreaLogada() {
 }
 
 async function carregarReferencia() {
-  const [macro, unidades, donos, analistas] = await Promise.all([
+  const [macro, unidades, donos, analistas, gente] = await Promise.all([
     base.from("macroprocessos").select("id,nome").order("nome"),
     base.from("unidades").select("id,nome,sigla,grupo,ordem").order("ordem"),
     base.from("donos").select("id,unidade_id,nome,sigla").order("nome"),
-    base.from("analistas").select("id,nome").eq("ativo", true).order("nome")
+    base.from("analistas").select("id,nome").eq("ativo", true).order("nome"),
+    base.from("perfis").select("id,email,nome")
   ]);
+  /* O histórico guarda o identificador de quem mexeu; sem esta ponte a tela
+     mostraria um código que não diz nada a ninguém. */
+  perfis = Object.fromEntries((gente.data || []).map(x => [x.id, x.nome || x.email]));
   const ruim = [macro, unidades, donos, analistas].find(r => r.error);
   if (ruim) { recado("Não consegui carregar as listas: " + erroDe(ruim.error), "erro"); return; }
   referencia = { macroprocessos: macro.data, unidades: unidades.data, donos: donos.data, analistas: analistas.data };
 
   const rotuloUnidade = u => u.sigla || u.nome;
   encher("#macro", referencia.macroprocessos.map(m => [m.id, m.nome]), "Escolha");
-  encher("#unidade", referencia.unidades.map(u => [u.id, rotuloUnidade(u) + " — " + u.nome]), "Escolha");
+  /* Unidade sem sigla tem o nome como rótulo: repetir "Secretaria / Gabinete —
+     Secretaria / Gabinete" não diz nada a mais. */
+  encher("#unidade", referencia.unidades.map(u => [u.id, u.sigla ? u.sigla + " — " + u.nome : u.nome]), "Escolha");
   encher("#analista", referencia.analistas.map(a => [a.id, a.nome]), "Não informado");
   encher("#pend-campo", CAMPOS_DA_FICHA, "Escolha o campo");
   for (const alvo of ["#f-unidade", "#p-unidade"])
@@ -923,7 +934,7 @@ async function abrirFicha(id) {
     base.from("processos").select("*").eq("id", id).single(),
     base.from("processo_normas").select("*").eq("processo_id", id).order("ordem"),
     base.from("processo_artefatos").select("*").eq("processo_id", id).order("ordem"),
-    base.from("processo_historico").select("campo,de,para,quando").eq("processo_id", id)
+    base.from("processo_historico").select("campo,de,para,quando,quem").eq("processo_id", id)
       .order("quando", { ascending: false }).limit(40),
     base.from("processo_pendencia").select("*").eq("processo_id", id).is("resolvida_em", null)
   ]);
@@ -956,10 +967,12 @@ function preencherFicha() {
   $("#analista").value = p.analista_id || "";
   $("#codigo").value = p.codigo_antigo || "";
   $("#docval").value = p.doc_validacao_sei || "";
-  $("#priorizado").value = String(Boolean(p.priorizado));
   $("#obs").value = p.observacoes || "";
   $$('input[name="categoria"]').forEach(r => { r.checked = r.value === (p.categoria || "Processo"); });
 
+  /* Processo que nasce agora não tem código antigo: o campo só existe para quem
+     já era do catálogo velho. */
+  $('[data-campo="codigo_antigo"]').hidden = p.id == null;
   original = instantaneo();
   aplicarModo();
   desenharItens();
@@ -1018,7 +1031,6 @@ function lerFicha() {
     categoria: (document.querySelector('input[name="categoria"]:checked') || {}).value || "Processo",
     codigo_antigo: nulo($("#codigo").value.trim()),
     doc_validacao_sei: nulo($("#docval").value.trim()),
-    priorizado: $("#priorizado").value === "true",
     observacoes: nulo($("#obs").value.trim())
   };
 }
@@ -1033,8 +1045,44 @@ const instantaneo = () => ({
 /* Guardar como a ficha estava ao abrir e comparar com o agora é o que entrega,
    de uma vez: o destaque do campo alterado, o aviso de alteração não salva, o
    descartar e a cor do que mudou. */
+const TEM_FLUXO = ["Mapeado", "Em revisão"];
+
+/* Sem fluxo não há link, versão, data nem validação: o espaço só abre quando o
+   status diz que o fluxo existe. */
+function ajustarCamposDoFluxo() {
+  const abre = TEM_FLUXO.includes($("#status").value);
+  ["link_fluxo", "versao", "data_publicacao_fluxo", "validado"].forEach(k => {
+    $('[data-campo="' + k + '"]').hidden = !abre;
+  });
+  $("#dica-fluxo").hidden = abre;
+}
+
+/* Ficha nova não tem o que comparar: o que ela mostra é o quanto falta. */
+const OBRIGATORIOS = ["nome", "descricao", "macroprocesso_id", "tipo", "unidade_id", "dono_id"];
+
+function marcarPreenchimento() {
+  const d = lerFicha();
+  $$("#form-ficha [data-campo]").forEach(div => {
+    const k = div.dataset.campo;
+    if (!OBRIGATORIOS.includes(k)) { div.classList.remove("falta", "pronto"); return; }
+    const vazio = k === "dono_id" ? $("#dono").value === "" : !d[k];
+    div.classList.toggle("falta", vazio);
+    div.classList.toggle("pronto", !vazio);
+  });
+  const faltam = faltaParaListar(d).length;
+  $("#mudancas").hidden = false;
+  $("#mudancas").textContent = faltam === 0
+    ? "Pronto para gravar"
+    : faltam === 1 ? "Falta 1 campo" : "Faltam " + faltam + " campos";
+  $("#mudancas").style.color = faltam ? "var(--revisao)" : "var(--ok)";
+  $("#mudancas").style.background = faltam ? "var(--revisao-fraca)" : "var(--ok-fraca)";
+  $("#mudancas").style.borderColor = faltam ? "var(--revisao)" : "var(--ok)";
+}
+
 function marcarMudancas() {
   if (!original) return;
+  ajustarCamposDoFluxo();
+  if (atual.id == null) { marcarPreenchimento(); return avisoDaDescricao(); }
   const agora = instantaneo();
   let quantos = 0;
   $$("#form-ficha [data-campo]").forEach(div => {
@@ -1049,14 +1097,18 @@ function marcarMudancas() {
 
   $("#mudancas").hidden = quantos === 0;
   $("#mudancas").textContent = quantos === 1 ? "1 alteração não salva" : quantos + " alterações não salvas";
+  $("#mudancas").style.color = ""; $("#mudancas").style.background = ""; $("#mudancas").style.borderColor = "";
   $("#descartar").disabled = quantos === 0 || modoLeitura;
+  avisoDaDescricao();
+  return quantos;
+}
 
-  const repete = agora.campos.descricao && agora.campos.nome &&
-    agora.campos.descricao.toLowerCase() === agora.campos.nome.toLowerCase();
+function avisoDaDescricao() {
+  const d = lerFicha();
+  const repete = d.descricao && d.nome && d.descricao.toLowerCase() === d.nome.toLowerCase();
   $("#dica-descricao").textContent = repete
     ? "Esta descrição só repete o nome — a ficha pública vai mostrar “não informada”."
     : "";
-  return quantos;
 }
 
 const temMudanca = () => Boolean(original) && !igual(original, instantaneo());
@@ -1270,7 +1322,7 @@ async function recarregarFicha(id) {
     base.from("processos").select("*").eq("id", id).single(),
     base.from("processo_normas").select("*").eq("processo_id", id).order("ordem"),
     base.from("processo_artefatos").select("*").eq("processo_id", id).order("ordem"),
-    base.from("processo_historico").select("campo,de,para,quando").eq("processo_id", id)
+    base.from("processo_historico").select("campo,de,para,quando,quem").eq("processo_id", id)
       .order("quando", { ascending: false }).limit(40),
     base.from("processo_pendencia").select("*").eq("processo_id", id).is("resolvida_em", null),
     base.from("pendencias").select("processo_id,origem,campo,observacao,desde")
@@ -1286,6 +1338,13 @@ $("#salvar").addEventListener("click", () => salvar(false));
 
 /* ---------- publicar, arquivar, revisar ---------- */
 $("#publicar").addEventListener("click", async () => {
+  const d = lerFicha();
+  /* O status diz que há fluxo publicado; publicar sem o link seria o catálogo
+     afirmar o que não pode mostrar. */
+  if (d.status_mapeamento === "Mapeado" && !d.link_fluxo) {
+    recado("Processo mapeado precisa do link do fluxo para ser publicado.", "aviso");
+    return;
+  }
   if (!(await salvar(true))) return;
   const { error } = await base.from("processos").update({ estado: "publicado" }).eq("id", atual.id);
   if (error) { recado("Não consegui publicar: " + erroDe(error), "erro"); return; }
@@ -1383,7 +1442,8 @@ function desenharHistorico() {
   $("#lista-historico").innerHTML = historico.map(h =>
     "<li><span><b>" + esc(ROTULO_CAMPO[h.campo] || h.campo) + "</b><small>" +
     (h.campo === "(criado)" ? "listado" : esc(h.de || "vazio") + " → " + esc(h.para || "vazio")) +
-    " · " + new Date(h.quando).toLocaleString("pt-BR") + "</small></span></li>").join("");
+    " · " + new Date(h.quando).toLocaleString("pt-BR") +
+    " · " + esc(perfis[h.quem] || "carga do sistema") + "</small></span></li>").join("");
   $("#historico-vazio").hidden = historico.length > 0;
 }
 
