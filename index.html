@@ -416,7 +416,7 @@
 <footer class="rodape">
   <div class="interno">
     <span class="credito"><small>Desenvolvido por</small><b>CGGES — Escritório de Processos</b>Secretaria do Patrimônio da União</span>
-    <span>SPUProcessos · Catálogo de Processos de Trabalho</span>
+    <span id="quando"></span>
   </div>
 </footer>
 
@@ -875,6 +875,25 @@ async function iniciar() {
 }
 
 iniciar();
+
+/* Quando o catálogo mudou pela última vez. A data é escrita pelo workflow só
+   quando o conteúdo muda, então ela diz "é isto desde quando", e não "alguém
+   olhou agora". Falhar aqui não pode quebrar a página: sem o arquivo, a linha
+   simplesmente não aparece. */
+(async function dizerQuando() {
+  const onde = document.getElementById("quando");
+  if (!onde) return;
+  try {
+    const r = await fetch("gerado.json", { cache: "no-cache" });
+    if (!r.ok) return;
+    const { mudou_em } = await r.json();
+    if (!mudou_em) return;
+    const d = new Date(mudou_em);
+    onde.textContent = "Catálogo atualizado em " +
+      d.toLocaleDateString("pt-BR") + ", às " +
+      d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+  } catch (e) { /* sem data é melhor que data errada */ }
+})();
 </script>
 </body>
 </html>

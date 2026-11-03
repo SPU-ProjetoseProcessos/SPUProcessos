@@ -323,6 +323,7 @@ footer .credito small{display:block;font-size:11.5px;font-weight:700;letter-spac
       </div>
 
       <p id="quantos" class="dica"></p>
+      <p id="quando" class="dica"></p>
       <table>
         <thead><tr>
           <th><button type="button" data-ordena="nome">Processo</button></th>
@@ -1350,7 +1351,7 @@ $("#publicar").addEventListener("click", async () => {
   if (error) { recado("Não consegui publicar: " + erroDe(error), "erro"); return; }
   await recarregarFicha(atual.id);
   modoLeitura = true; aplicarModo(); desenharCabecalhoDaFicha();
-  recado("Publicado. Vai ao ar no catálogo em até uma hora.");
+  recado("Publicado. Entra no catálogo na próxima atualização automática.");
 });
 
 $("#arquivar").addEventListener("click", async () => {
@@ -1379,7 +1380,7 @@ $("#arquivar").addEventListener("click", async () => {
   if (error) { recado("Não consegui arquivar: " + erroDe(error), "erro"); return; }
   await recarregarFicha(atual.id);
   modoLeitura = true; aplicarModo(); desenharCabecalhoDaFicha();
-  recado("Arquivado. Sai do catálogo na próxima atualização.");
+  recado("Arquivado. Sai do catálogo na próxima atualização automática.");
 });
 
 $("#revisao").addEventListener("click", async () => {
@@ -1391,8 +1392,8 @@ $("#revisao").addEventListener("click", async () => {
   modoLeitura = estava; aplicarModo(); desenharCabecalhoDaFicha();
   if (!deu) return;
   recado(entrando
-    ? "Em revisão. A ficha pública passa a trazer o carimbo e a avisar antes de abrir o fluxo."
-    : "Fora de revisão, de volta a mapeado.");
+    ? "Em revisão. A ficha pública passa a trazer o carimbo e a avisar antes de abrir o fluxo, na próxima atualização do catálogo."
+    : "Fora de revisão, de volta a mapeado. Vale na próxima atualização do catálogo.");
 });
 
 /* ---------- exportar ---------- */
@@ -1448,6 +1449,23 @@ function desenharHistorico() {
 }
 
 /* ---------- início ---------- */
+/* O que está no ar nem sempre é o que está na base: a geração do catálogo roda
+   por agenda, e a agenda do GitHub é "quando der". Dizer desde quando o catálogo
+   no ar é aquele evita a pergunta "publiquei, cadê?". */
+(async function dizerQuando() {
+  try {
+    const r = await fetch("gerado.json", { cache: "no-cache" });
+    if (!r.ok) return;
+    const { mudou_em, processos } = await r.json();
+    if (!mudou_em) return;
+    const d = new Date(mudou_em);
+    $("#quando").textContent = "No ar, no catálogo público: " + processos +
+      " processos, desde " + d.toLocaleDateString("pt-BR") + " às " +
+      d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }) +
+      ". O que se publica aqui entra na próxima atualização automática.";
+  } catch (e) { /* sem data é melhor que data errada */ }
+})();
+
 const { data: { session } } = await base.auth.getSession();
 if (session) await abrirAreaLogada(); else mostrar("entrar");
 </script>

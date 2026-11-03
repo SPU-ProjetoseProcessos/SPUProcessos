@@ -228,7 +228,7 @@ footer .credito small{display:block;font-size:11.5px;font-weight:700;letter-spac
 <div class="env cabeca">
   <div>
     <h1>Painel do mapeamento</h1>
-    <p>Situação do mapeamento dos processos de trabalho da SPU · Atualizado em <b>27/10/2026</b></p>
+    <p>Situação do mapeamento dos processos de trabalho da SPU</p>
   </div>
   <div id="filtros-ativos" class="filtros-ativos" hidden></div>
   <a class="voltar" href="index.html">
@@ -274,7 +274,7 @@ footer .credito small{display:block;font-size:11.5px;font-weight:700;letter-spac
 <footer>
   <div class="env">
     <span class="credito"><small>Desenvolvido por</small><b>CGGES — Escritório de Processos</b>Secretaria do Patrimônio da União</span>
-    <span>SPUProcessos · Catálogo de Processos de Trabalho</span>
+    <span id="quando"></span>
   </div>
 </footer>
 
@@ -548,6 +548,25 @@ document.addEventListener('keydown', e => {
 });
 
 desenhar();
+
+/* Quando o catálogo mudou pela última vez. A data é escrita pelo workflow só
+   quando o conteúdo muda, então ela diz "é isto desde quando", e não "alguém
+   olhou agora". Falhar aqui não pode quebrar a página: sem o arquivo, a linha
+   simplesmente não aparece. */
+(async function dizerQuando() {
+  const onde = document.getElementById("quando");
+  if (!onde) return;
+  try {
+    const r = await fetch("gerado.json", { cache: "no-cache" });
+    if (!r.ok) return;
+    const { mudou_em } = await r.json();
+    if (!mudou_em) return;
+    const d = new Date(mudou_em);
+    onde.textContent = "Catálogo atualizado em " +
+      d.toLocaleDateString("pt-BR") + ", às " +
+      d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+  } catch (e) { /* sem data é melhor que data errada */ }
+})();
 </script>
 </body>
 </html>
