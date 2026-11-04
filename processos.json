@@ -1634,6 +1634,25 @@
   "artefatos": []
  },
  {
+  "id": 209,
+  "codigo": null,
+  "nome": "Encontros temáticos",
+  "descricao": "Planejamento, execução e avaliação dos Encontros Temáticos da SPU.",
+  "macroNome": "Gestão Administrativa",
+  "macroTipo": "Suporte",
+  "mapeado": "Mapeado",
+  "unidade": "DEGOV",
+  "dono": "CGATE",
+  "categoria": "Processo",
+  "validado": "Não",
+  "versao": "V1.0",
+  "publicacao": "04/11/2026",
+  "linkWeb": "https://spu-projetoseprocessos.github.io/EncontrosTematicosV1-0/",
+  "pdf": null,
+  "normas": [],
+  "artefatos": []
+ },
+ {
   "id": 170,
   "codigo": "S02.021",
   "nome": "Entrada em Exercício Servidores CNU",

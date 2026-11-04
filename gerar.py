@@ -18,7 +18,10 @@ import urllib.request
 BASE = os.environ.get("SUPABASE_URL", "https://yamixtmtgeockzxmmnsb.supabase.co")
 CHAVE = os.environ.get("SUPABASE_KEY", "sb_publishable_8WzmTmKmNaAcxq1MnBqEcg_hgI3ldDm")
 
-OBRIGATORIOS = ("id", "nome", "codigo", "macroNome", "macroTipo", "mapeado", "unidade")
+# "codigo" ficou de fora em 04/11/2026: processo cadastrado agora nao tem codigo
+# antigo, que so existe para quem veio do catalogo velho. Exigi-lo barrava o
+# primeiro processo que a equipe criou pela tela.
+OBRIGATORIOS = ("id", "nome", "macroNome", "macroTipo", "mapeado", "unidade")
 
 
 def buscar(caminho, params):

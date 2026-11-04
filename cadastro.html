@@ -266,6 +266,7 @@ footer .credito small{display:block;font-size:11.5px;font-weight:700;letter-spac
       <div class="acoes" style="margin-bottom:16px">
         <h2 style="margin:0">Processos</h2>
         <div class="direita">
+          <button class="btn" type="button" id="publicar-agora">Atualizar o catálogo agora</button>
           <button class="btn btn-forte" type="button" id="novo">Listar um processo novo</button>
         </div>
       </div>
@@ -1011,6 +1012,17 @@ function aplicarModo() {
   $$("#form-ficha input, #form-ficha select, #form-ficha textarea")
     .forEach(c => { c.disabled = modoLeitura; });
   $$("#form-ficha .btn").forEach(b => { b.disabled = modoLeitura; });
+  trocarExemplos();
+}
+
+/* Em leitura o campo perde a borda e o fundo, para parecer texto — e aí o texto
+   de exemplo de um campo vazio passa a parecer valor preenchido. Em leitura ele
+   vira "não informado", que é o que o campo de fato diz. */
+function trocarExemplos() {
+  $$("#form-ficha input[placeholder], #form-ficha textarea[placeholder]").forEach(c => {
+    if (c.dataset.exemplo === undefined) c.dataset.exemplo = c.getAttribute("placeholder") || "";
+    c.setAttribute("placeholder", modoLeitura ? "não informado" : c.dataset.exemplo);
+  });
 }
 
 /* ---------- o que mudou ---------- */
@@ -1243,6 +1255,12 @@ $("#add-pendencia").addEventListener("click", () => {
 });
 
 /* ---------- gravar ---------- */
+
+/* A máscara no campo é só desenho: o navegador não barra nada enquanto a página
+   lê os valores por conta própria. Quem barra é esta expressão, na gravação —
+   sem ela entrou "V1-0" e "v2" na base. */
+const VERSAO_BOA = /^V[0-9]+\.[0-9]+$/;
+
 function faltaParaListar(d) {
   const falta = [];
   if (!d.nome) falta.push("nome");
@@ -1258,6 +1276,11 @@ async function salvar(silencioso) {
   const d = lerFicha();
   const falta = faltaParaListar(d);
   if (falta.length) { recado("Falta preencher: " + falta.join(", ") + ".", "aviso"); return false; }
+  if (d.versao && !VERSAO_BOA.test(d.versao)) {
+    recado('A versão do fluxo vai no formato V1.0 — a letra V, um número, ponto e outro ' +
+           'número. "' + d.versao + '" não serve.', "aviso");
+    return false;
+  }
   $("#salvar").disabled = true;
   let id = atual.id;
   if (id == null) {
@@ -1452,19 +1475,66 @@ function desenharHistorico() {
 /* O que está no ar nem sempre é o que está na base: a geração do catálogo roda
    por agenda, e a agenda do GitHub é "quando der". Dizer desde quando o catálogo
    no ar é aquele evita a pergunta "publiquei, cadê?". */
-(async function dizerQuando() {
+async function dizerQuando(rabicho) {
   try {
     const r = await fetch("gerado.json", { cache: "no-cache" });
-    if (!r.ok) return;
+    if (!r.ok) return null;
     const { mudou_em, processos } = await r.json();
-    if (!mudou_em) return;
+    if (!mudou_em) return null;
     const d = new Date(mudou_em);
     $("#quando").textContent = "No ar, no catálogo público: " + processos +
       " processos, desde " + d.toLocaleDateString("pt-BR") + " às " +
       d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }) +
-      ". O que se publica aqui entra na próxima atualização automática.";
-  } catch (e) { /* sem data é melhor que data errada */ }
-})();
+      ". " + (rabicho || "O que se publica aqui entra na próxima atualização automática.");
+    return mudou_em;
+  } catch (e) { return null; /* sem data é melhor que data errada */ }
+}
+dizerQuando();
+
+/* Pedir a geração agora, em vez de esperar a vaga da agenda. O token do GitHub
+   não pode viver nesta página: quem abrisse o código-fonte o teria. Então a
+   página pede a uma função do Supabase, que roda em servidor, guarda o token e
+   exige sessão. */
+$("#publicar-agora").addEventListener("click", async () => {
+  const botao = $("#publicar-agora");
+  const antes = await dizerQuando();
+  botao.disabled = true;
+  botao.textContent = "Pedindo…";
+  const { error } = await base.functions.invoke("publicar", { body: {} });
+  if (error) {
+    let mensagem = "Não consegui pedir a geração do catálogo.";
+    try {
+      const corpo = await error.context.json();
+      if (corpo && corpo.recado) mensagem = corpo.recado;
+    } catch (e) { /* fica a mensagem genérica */ }
+    botao.disabled = false;
+    botao.textContent = "Atualizar o catálogo agora";
+    recado(mensagem, "erro");
+    return;
+  }
+  botao.textContent = "Gerando…";
+  recado("Pedido feito. O catálogo é refeito e vai ao ar em um ou dois minutos.");
+  esperarOCatalogo(antes, botao);
+});
+
+/* Olha de tempos em tempos se o catálogo no ar já é o novo. Não promete prazo:
+   se demorar mais que o esperado, apenas devolve o botão e não inventa nada. */
+async function esperarOCatalogo(antes, botao) {
+  for (let i = 0; i < 20; i++) {
+    await new Promise(r => setTimeout(r, 15000));
+    const agora = await dizerQuando("Atualizado agora.");
+    if (agora && agora !== antes) {
+      botao.disabled = false;
+      botao.textContent = "Atualizar o catálogo agora";
+      recado("O catálogo no ar já é o novo.");
+      return;
+    }
+  }
+  botao.disabled = false;
+  botao.textContent = "Atualizar o catálogo agora";
+  await dizerQuando();
+  recado("A geração foi pedida, mas o site ainda não mostra o novo. Pode ser demora da publicação do GitHub — confira daqui a pouco.", "aviso");
+}
 
 const { data: { session } } = await base.auth.getSession();
 if (session) await abrirAreaLogada(); else mostrar("entrar");
