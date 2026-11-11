@@ -169,6 +169,16 @@ footer .credito small{display:block;font-size:11.5px;font-weight:700;letter-spac
   text-transform:uppercase;color:var(--tinta-fraca);margin-bottom:3px}
 @media (max-width:620px){ .grade{margin-top:24px} .bloco{padding:18px} }
 </style>
+<style>
+  /* Ponteiro para o MemóriaSPU. Não é aba desta ferramenta: leva para fora, e por isso
+     fica separado das demais e carrega a seta. Sem variável de cor, para ficar igual
+     nos dois temas e em qualquer uma das ferramentas. */
+  .mem-topo { display:inline-flex; align-items:center; gap:5px; font:inherit; font-size:13px;
+    font-weight:600; color:inherit; opacity:.7; text-decoration:none; white-space:nowrap;
+    padding:5px 10px; border-radius:7px; border:1px solid transparent; }
+  .mem-topo:hover { opacity:1; background:rgb(128 128 128 / .13); }
+  .mem-topo svg { width:12px; height:12px; flex:none; }
+</style>
 </head>
 <body>
 
@@ -188,7 +198,7 @@ footer .credito small{display:block;font-size:11.5px;font-weight:700;letter-spac
       <strong>Catálogo de Processos de Trabalho</strong>
       <span>Secretaria do Patrimônio da União</span>
     </div>
-    <nav class="menu" aria-label="Principal"><a href="index.html">Catálogo</a><a href="painel.html">Painel</a><a href="index.html#ajuda">Como ler um fluxo</a></nav>
+    <nav class="menu" aria-label="Principal"><a href="index.html">Catálogo</a><a href="painel.html">Painel</a><a href="index.html#ajuda">Como ler um fluxo</a><a class="mem-topo" href="https://memoria-spu.gestao.gov.br/" title="MemóriaSPU — o acervo institucional da SPU: normas, pareceres e publicações, em um lugar só">MemóriaSPU <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></nav>
   </div>
 </header>
 
