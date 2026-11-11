@@ -1,6 +1,6 @@
 # Organograma da SPU — versão pública
 
-Quem está onde na Secretaria do Patrimônio da União: a estrutura do SIORG, a chefia de cada
+Quem é quem na Secretaria do Patrimônio da União: a estrutura do SIORG, a chefia de cada
 unidade, quem está lotado e a competência regimental. Site estático, sem servidor.
 
 ## Fontes
