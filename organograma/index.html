@@ -1,0 +1,1247 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Organograma da SPU</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f0f2f5; --surface:#ffffff; --surface-2:#f0f2f5; --zebra:#fbfcfd;
+  --border:#e2e6ec; --border-forte:#c4ccd6;
+  --fg:#333333; --fg-muted:#5a6068;
+  --accent:#1b2b85; --accent-escuro:#121d5e; --accent-claro:#5992ed; --accent-fg:#ffffff; --accent-soft:#e8f0ff;
+  --ok:#168821; --meio:#9a6700; --off:#6b7280; --alerta:#b32d2d;
+  --marca-1:#1351b4; --marca-2:#2e9e4f; --marca-3:#f2b705; --marca-4:#e8771f;
+  --sombra:0 1px 2px rgba(28,28,28,.05), 0 8px 24px -16px rgba(12,50,111,.35);
+  --sombra-modal:0 24px 64px -16px rgba(12,50,111,.45), 0 4px 12px rgba(0,0,0,.12);
+  --fonte-ui:"Raleway",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --fonte-codigo:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  /* Paleta categórica validada com scripts/validate_palette.js (claro e escuro, 8 slots).
+     Cada cartão do painel é uma série só: a cor identifica a dimensão, não o valor. */
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100;
+  --s5:#e87ba4; --s6:#008300; --s7:#6250d6; --s8:#e34948;
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500;
+  --s5:#d55181; --s6:#008300; --s7:#9085e9; --s8:#e66767;
+  --bg:#0f1322; --surface:#171c2e; --surface-2:#1f2639; --zebra:#1a2032;
+  --border:#2a3146; --border-forte:#3c445d;
+  --fg:#e9ecf5; --fg-muted:#99a1b8;
+  --accent:#8fb0f2; --accent-escuro:#b3c9f7; --accent-claro:#5992ed; --accent-fg:#0d1430; --accent-soft:#1a2244;
+  --ok:#2f9e3c; --meio:#b07f12; --off:#5b6572; --alerta:#e07a7a;
+  --sombra:0 1px 2px rgba(0,0,0,.45), 0 8px 24px -16px rgba(0,0,0,.85);
+  --sombra-modal:0 24px 64px -16px rgba(0,0,0,.8), 0 4px 12px rgba(0,0,0,.5);
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500;
+  --s5:#d55181; --s6:#008300; --s7:#9085e9; --s8:#e66767;
+  --bg:#0f1322; --surface:#171c2e; --surface-2:#1f2639; --zebra:#1a2032;
+  --border:#2a3146; --border-forte:#3c445d;
+  --fg:#e9ecf5; --fg-muted:#99a1b8;
+  --accent:#8fb0f2; --accent-escuro:#b3c9f7; --accent-claro:#5992ed; --accent-fg:#0d1430; --accent-soft:#1a2244;
+  --ok:#2f9e3c; --meio:#b07f12; --off:#5b6572; --alerta:#e07a7a;
+  --sombra:0 1px 2px rgba(0,0,0,.45), 0 8px 24px -16px rgba(0,0,0,.85);
+  --sombra-modal:0 24px 64px -16px rgba(0,0,0,.8), 0 4px 12px rgba(0,0,0,.5);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--fonte-ui);font-size:15px;line-height:1.5}
+.interno{max-width:1400px;margin:0 auto;padding:0 16px}
+button{font-family:inherit;font-size:inherit;cursor:pointer}
+code,.mono{font-family:var(--fonte-codigo)}
+
+/* ---------- topo ---------- */
+.topo{background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:40}
+.topo .interno{display:flex;align-items:center;gap:18px;min-height:64px;flex-wrap:wrap}
+.marca{display:flex;align-items:center;gap:10px;background:none;border:0;padding:0;color:inherit;text-align:left}
+.marca-nome{display:block;font-weight:700;font-size:17px;letter-spacing:-.2px}
+.marca-nome b{color:var(--accent)}
+.marca-autoria{display:block;font-size:11px;color:var(--fg-muted)}
+.marca-barras{display:flex;align-items:flex-end;gap:2px;height:20px;flex:none}
+.marca-barras i{width:3px;border-radius:1px;display:block}
+.modulo{border-left:1px solid var(--border);padding-left:18px}
+.modulo strong{display:block;font-size:15px}
+.modulo span{display:block;font-size:12px;color:var(--fg-muted)}
+.topo-dir{margin-left:auto;display:flex;align-items:center;gap:8px}
+.selo-data{font-size:11px;line-height:1.35;color:var(--fg-muted);background:var(--surface-2);border:1px solid var(--border);
+  border-radius:8px;padding:5px 9px;font-family:var(--fonte-codigo);white-space:nowrap}
+.selo-data b{color:var(--fg);font-weight:500}
+.btn-icone{background:var(--surface);border:1px solid var(--border);border-radius:8px;width:34px;height:34px;
+  display:grid;place-items:center;color:var(--fg-muted)}
+.btn-icone:hover{border-color:var(--border-forte);color:var(--fg)}
+.btn-icone svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2}
+
+/* ---------- abas e busca ---------- */
+.barra{background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:64px;z-index:35}
+.barra .interno{display:flex;align-items:center;gap:14px;padding-top:10px;padding-bottom:10px;flex-wrap:wrap}
+.abas{display:flex;gap:4px;background:var(--surface-2);border-radius:10px;padding:3px}
+.aba{background:none;border:0;border-radius:8px;padding:7px 14px;font-weight:600;font-size:13.5px;color:var(--fg-muted)}
+.aba[aria-selected="true"]{background:var(--surface);color:var(--accent);box-shadow:var(--sombra)}
+.busca{position:relative;flex:1;min-width:260px}
+.busca input{width:100%;padding:9px 34px 9px 36px;border:1px solid var(--border-forte);border-radius:10px;
+  background:var(--surface);color:var(--fg);font-size:14px}
+.busca input:focus{outline:2px solid var(--accent-claro);outline-offset:1px;border-color:var(--accent-claro)}
+.busca svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:16px;height:16px;
+  fill:none;stroke:var(--fg-muted);stroke-width:2}
+.busca .limpa{position:absolute;right:6px;top:50%;transform:translateY(-50%);background:none;border:0;
+  color:var(--fg-muted);font-size:18px;line-height:1;padding:4px 7px;border-radius:6px}
+.resultados{position:absolute;left:0;right:0;top:calc(100% + 6px);background:var(--surface);border:1px solid var(--border);
+  border-radius:12px;box-shadow:var(--sombra-modal);max-height:60vh;overflow:auto;z-index:50;display:none}
+.resultados.ativo{display:block}
+.res-grupo{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--fg-muted);
+  padding:9px 13px 5px;font-weight:700}
+.res-item{display:flex;align-items:center;gap:10px;width:100%;background:none;border:0;padding:8px 13px;text-align:left;color:inherit}
+.res-item:hover,.res-item:focus{background:var(--accent-soft);outline:none}
+.res-item > span{min-width:0;flex:1}
+.res-item .r-nome{display:block;font-weight:600;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.res-item .r-sub{display:block;font-size:12px;color:var(--fg-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.res-vazio{padding:16px 13px;color:var(--fg-muted);font-size:13.5px}
+
+/* ---------- avisos ---------- */
+main{padding:22px 0 56px}
+.aviso{display:flex;gap:11px;background:var(--accent-soft);border:1px solid var(--border);border-left:3px solid var(--accent-claro);
+  border-radius:10px;padding:11px 14px;font-size:13px;color:var(--fg);margin-bottom:18px}
+.aviso svg{width:17px;height:17px;flex:none;margin-top:1px;fill:none;stroke:currentColor;stroke-width:2}
+
+/* ---------- caminho ---------- */
+.caminho{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-bottom:16px;font-size:13px}
+.caminho button{background:none;border:0;color:var(--accent);font-weight:600;padding:3px 6px;border-radius:6px}
+.caminho button:hover{background:var(--accent-soft)}
+.caminho span{color:var(--fg-muted)}
+.caminho .atual{color:var(--fg-muted);font-weight:600;padding:3px 6px}
+
+/* ---------- organograma ---------- */
+.og{overflow-x:auto;padding:6px 2px 10px}
+.og-palco{width:max-content;min-width:100%;margin:0 auto;padding:0 4px}
+.og-raiz{display:flex;justify-content:center}
+.og-rail{position:relative;height:26px;margin:0 auto}
+.og-rail::before{content:"";position:absolute;top:0;left:50%;width:2px;height:13px;background:var(--border-forte)}
+.og-rail .trave{position:absolute;top:13px;height:2px;background:var(--border-forte)}
+.og-filhos{display:flex;justify-content:center;align-items:flex-start;gap:14px}
+.og-ramo{position:relative;padding-top:13px;display:flex;flex-direction:column;align-items:center}
+.og-ramo::before{content:"";position:absolute;top:0;left:50%;width:2px;height:13px;background:var(--border-forte)}
+.og-ramo.solo::before{height:26px;top:-13px}
+
+.cx{background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:var(--sombra);
+  padding:12px 14px;width:214px;text-align:left;color:inherit;display:block;position:relative;transition:border-color .12s,transform .12s}
+.cx:hover{border-color:var(--accent-claro);transform:translateY(-1px)}
+.cx.achada{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft), var(--sombra);
+  animation:pulsa 2.2s ease-out}
+@keyframes pulsa{0%,22%{box-shadow:0 0 0 7px var(--accent-soft), var(--sombra)}
+  100%{box-shadow:0 0 0 3px var(--accent-soft), var(--sombra)}}
+@media (prefers-reduced-motion:reduce){ .cx.achada{animation:none} }
+.cx.raiz{width:286px;border-top:3px solid var(--accent)}
+.cx .sigla{font-family:var(--fonte-codigo);font-size:13px;font-weight:500;color:var(--accent);display:block}
+.cx .nome{font-size:13px;font-weight:600;line-height:1.3;margin:3px 0 7px;display:block}
+.cx.raiz .nome{font-size:15px}
+.cx .chefe{font-size:12px;color:var(--fg-muted);display:block;line-height:1.35}
+.cx .chefe b{color:var(--fg);font-weight:600}
+.cx .rodape{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin-top:8px;padding-top:7px;border-top:1px solid var(--border);
+  font-size:11.5px;color:var(--fg-muted)}
+.pin{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;border-radius:999px;padding:2px 7px;
+  border:1px solid var(--border);background:var(--surface-2);color:var(--fg-muted);white-space:nowrap}
+.pin.vaga{color:var(--alerta);border-color:color-mix(in srgb,var(--alerta) 35%,var(--border));background:color-mix(in srgb,var(--alerta) 8%,transparent)}
+.pin.indef{color:var(--meio);border-color:color-mix(in srgb,var(--meio) 35%,var(--border));background:color-mix(in srgb,var(--meio) 8%,transparent)}
+.pin.gente{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 30%,var(--border));background:var(--accent-soft)}
+.cx .abre{margin-left:auto;font-size:11px;font-weight:700;color:var(--accent);white-space:nowrap}
+.og-netos{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-top:9px;max-width:214px}
+.neto{font-family:var(--fonte-codigo);font-size:11px;background:var(--surface-2);border:1px solid var(--border);
+  border-radius:6px;padding:2px 6px;color:var(--fg-muted)}
+.neto:hover{border-color:var(--accent-claro);color:var(--accent)}
+.grade-uf{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:11px}
+.og-grade{display:grid;grid-template-columns:repeat(auto-fill,minmax(216px,1fr));gap:14px;position:relative;padding-top:28px}
+.og-grade::before{content:"";position:absolute;top:0;left:50%;width:2px;height:16px;background:var(--border-forte)}
+.og-grade::after{content:"";position:absolute;top:16px;left:8px;right:8px;height:2px;background:var(--border-forte)}
+.og-grade > .og-ramo{padding-top:13px;align-items:stretch}
+.og-grade > .og-ramo .cx{width:100%}
+.og-grade > .og-ramo .og-netos{max-width:none;width:100%}
+
+/* ---------- lista ---------- */
+.ferramentas{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.btn{background:var(--surface);border:1px solid var(--border-forte);border-radius:9px;padding:7px 13px;
+  font-size:13px;font-weight:600;color:var(--fg)}
+.btn:hover{border-color:var(--accent-claro);color:var(--accent)}
+.btn.primario{background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
+.btn.primario:hover{background:var(--accent-escuro);color:var(--accent-fg)}
+.lista{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:var(--sombra)}
+.li{display:flex;align-items:center;gap:9px;padding:7px 12px;border-bottom:1px solid var(--border);width:100%;
+  background:none;border-left:0;border-right:0;border-top:0;text-align:left;color:inherit}
+.li:last-child{border-bottom:0}
+.li:hover{background:var(--zebra)}
+.li .tw{width:20px;flex:none;color:var(--fg-muted);font-size:11px;text-align:center}
+.li .s{font-family:var(--fonte-codigo);font-size:12.5px;color:var(--accent);min-width:76px;flex:none}
+.li .n{font-size:13.5px;flex:1}
+.li .m{font-size:12px;color:var(--fg-muted);flex:none}
+
+/* ---------- painel ---------- */
+.filtros{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:16px;padding:10px 12px;
+  border:1px solid var(--border);border-radius:11px;background:var(--surface)}
+.filtros .fl{font-size:12.5px;color:var(--fg-muted)}
+/* Estado de filtro precisa ser impossível de não ver: gruda no topo, muda de cor e
+   carrega o selo e o botão de limpar. */
+.filtros.ativo{position:sticky;top:124px;z-index:30;border:0;border-left:4px solid var(--accent);
+  background:var(--accent-soft);box-shadow:var(--sombra);padding:11px 14px}
+.filtros.ativo .fl{color:var(--fg);font-weight:700;font-size:13.5px}
+.filtros.ativo .fl b{font-family:var(--fonte-codigo);font-weight:600}
+.selo-filtro{display:inline-flex;align-items:center;gap:6px;background:var(--accent);color:var(--accent-fg);
+  border-radius:999px;padding:3px 10px;font-size:10.5px;font-weight:700;letter-spacing:.07em;
+  text-transform:uppercase;flex:none}
+.selo-filtro::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;
+  animation:pisca 1.8s ease-in-out infinite}
+@keyframes pisca{0%,100%{opacity:1}50%{opacity:.25}}
+@media (prefers-reduced-motion:reduce){ .selo-filtro::before{animation:none} }
+@media (max-width:720px){ .filtros.ativo{top:0} }
+.chip{display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--border-forte);
+  border-radius:999px;padding:4px 10px;font-size:12px;font-weight:600;color:var(--fg)}
+.chip i{font-style:normal;color:var(--fg-muted);font-size:14px;line-height:1}
+.chip:hover{border-color:var(--alerta);color:var(--alerta)}
+.chip:hover i{color:var(--alerta)}
+.filtros .limpar{margin-left:auto;flex:none}
+#filtro-org .filtros{margin-bottom:14px}
+.pin.gente.zerada{color:var(--fg-muted);background:var(--surface-2);border-color:var(--border)}
+
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:12px;margin-bottom:20px}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;box-shadow:var(--sombra);
+  text-align:left;display:block;position:relative;overflow:hidden;color:inherit;transition:border-color .12s,transform .12s}
+.kpi::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--cor,var(--accent))}
+.kpi:not(.inerte):hover{border-color:var(--cor,var(--accent));transform:translateY(-1px)}
+.kpi.inerte{cursor:default}
+.kpi.ligado{border-color:var(--cor,var(--accent));background:color-mix(in srgb,var(--cor) 9%,var(--surface))}
+.kpi.ligado::after{content:"filtrando";position:absolute;right:10px;top:10px;font-size:9.5px;font-weight:700;
+  letter-spacing:.05em;text-transform:uppercase;color:var(--cor)}
+.kpi .v{display:block;font-size:27px;font-weight:700;line-height:1.1;letter-spacing:-.5px}
+.kpi .r{display:block;font-size:12px;color:var(--fg-muted);margin-top:3px}
+.kpi .d{display:block;font-size:11.5px;color:var(--fg-muted);margin-top:6px;padding-top:6px;border-top:1px solid var(--border)}
+.nota-micro{font-size:11.5px;color:var(--fg-muted);line-height:1.5;margin:18px 0 0;max-width:72ch}
+.quadro{border-color:color-mix(in srgb,var(--s8) 40%,var(--border));grid-column:span 2}
+@media (max-width:760px){ .quadro{grid-column:auto} }
+.quadro .q-topo{display:flex;align-items:baseline;gap:8px;margin-bottom:10px}
+.quadro .q-topo h3{margin:0}
+.quadro .fechar-q{margin-left:auto;background:none;border:0;color:var(--fg-muted);font-size:19px;
+  line-height:1;padding:0 5px;border-radius:6px}
+.quadro .fechar-q:hover{background:var(--surface-2);color:var(--fg)}
+.q-trilha{font-size:11.5px;color:var(--fg-muted);margin:0 0 10px;display:flex;gap:4px;flex-wrap:wrap;align-items:center}
+.q-trilha button{background:none;border:0;color:var(--accent);font-weight:600;font-size:11.5px;padding:2px 5px;border-radius:5px}
+.q-trilha button:hover{background:var(--accent-soft)}
+.q-linha{display:grid;grid-template-columns:80px minmax(0,1fr) auto;align-items:center;gap:11px;width:100%;
+  background:none;border:0;border-bottom:1px solid var(--border);padding:7px 4px;text-align:left;color:inherit}
+.q-linha:last-child{border-bottom:0}
+.q-linha:hover{background:var(--surface-2)}
+.q-linha .qs{font-family:var(--fonte-codigo);font-size:12px;color:var(--accent)}
+.q-linha .qn{font-size:12.5px;line-height:1.35;min-width:0}
+.q-linha .qn small{display:block;color:var(--fg-muted);font-size:11px}
+.q-linha .qq{font-family:var(--fonte-codigo);font-size:12px;color:var(--fg-muted);text-align:right;white-space:nowrap}
+.q-linha .qq b{color:var(--fg);font-weight:600}
+.q-vazio{font-size:12.5px;color:var(--fg-muted);font-style:italic;padding:6px 0}
+.paineis{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px}
+.cartao{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:15px 16px;box-shadow:var(--sombra)}
+.cartao{position:relative}
+.cartao::before{content:"";position:absolute;left:0;top:0;right:0;height:3px;border-radius:12px 12px 0 0;
+  background:var(--cor,var(--accent))}
+.cartao h3{margin:0 0 3px;font-size:14px}
+.cartao .leg{font-size:11.5px;color:var(--fg-muted);margin:0 0 12px}
+.barras{display:flex;flex-direction:column;gap:4px}
+.linha-b{display:grid;grid-template-columns:128px 1fr 42px;align-items:center;gap:9px;font-size:12.5px;
+  background:none;border:0;padding:3px 4px;border-radius:7px;text-align:left;color:inherit;width:100%}
+.linha-b:hover{background:var(--surface-2)}
+.linha-b .rot{color:var(--fg-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.linha-b.ligada .rot{color:var(--fg);font-weight:700}
+.trilha{position:relative;height:10px;border-radius:999px;background:var(--surface-2);overflow:hidden}
+.fantasma{position:absolute;left:0;top:0;height:100%;border-radius:999px;
+  background:color-mix(in srgb,var(--cor,var(--accent)) 22%,transparent)}
+.fita{position:absolute;left:0;top:0;height:100%;border-radius:999px;background:var(--cor,var(--accent))}
+.linha-b.ligada .trilha{outline:2px solid var(--cor,var(--accent));outline-offset:1px}
+.linha-b .qt{text-align:right;font-family:var(--fonte-codigo);font-size:12px;color:var(--fg)}
+[data-slot="1"]{--cor:var(--s1)} [data-slot="2"]{--cor:var(--s2)} [data-slot="3"]{--cor:var(--s3)}
+[data-slot="4"]{--cor:var(--s4)} [data-slot="5"]{--cor:var(--s5)} [data-slot="6"]{--cor:var(--s6)}
+[data-slot="7"]{--cor:var(--s7)} [data-slot="8"]{--cor:var(--s8)}
+.supr{font-size:11.5px;color:var(--fg-muted);font-style:italic}
+
+/* ---------- modal ---------- */
+.fundo{position:fixed;inset:0;background:rgba(8,14,34,.55);display:none;z-index:60;padding:22px;overflow:auto}
+.fundo.ativo{display:flex;align-items:flex-start;justify-content:center}
+.modal{background:var(--surface);border-radius:16px;box-shadow:var(--sombra-modal);width:min(680px,100%);
+  margin:auto;overflow:hidden}
+.modal-topo{padding:18px 20px 14px;border-bottom:1px solid var(--border);display:flex;gap:14px;align-items:flex-start}
+.modal-topo .sigla{font-family:var(--fonte-codigo);font-size:13px;color:var(--accent);font-weight:500}
+.modal-topo h2{margin:2px 0 0;font-size:18px;line-height:1.25}
+.modal-topo .sub{font-size:12px;color:var(--fg-muted);margin-top:5px}
+.fechar{margin-left:auto;background:none;border:0;font-size:24px;line-height:1;color:var(--fg-muted);padding:2px 8px;border-radius:7px;flex:none}
+.fechar:hover{background:var(--surface-2);color:var(--fg)}
+.modal-corpo{padding:16px 20px 20px;max-height:min(66vh,620px);overflow:auto}
+.sec{margin-bottom:18px}
+.sec:last-child{margin-bottom:0}
+.sec h4{margin:0 0 9px;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--fg-muted)}
+.pes{display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid var(--border);border-radius:10px;margin-bottom:7px;background:var(--surface)}
+.pes.chefia{border-color:color-mix(in srgb,var(--accent) 30%,var(--border));background:var(--accent-soft)}
+.pes .pn{font-size:13.5px;font-weight:600;flex:1;min-width:0}
+.pes .pc{font-size:11.5px;color:var(--fg-muted);display:block;font-weight:400;margin-top:1px}
+.pes .acoes{display:flex;gap:5px;flex:none}
+.mini{background:var(--surface);border:1px solid var(--border-forte);border-radius:7px;padding:4px 9px;font-size:11.5px;font-weight:600;color:var(--fg)}
+.mini:hover{border-color:var(--accent-claro);color:var(--accent)}
+.mini.teams{border-color:color-mix(in srgb,var(--accent) 40%,var(--border));color:var(--accent)}
+.caixa-alerta{border:1px solid color-mix(in srgb,var(--meio) 35%,var(--border));background:color-mix(in srgb,var(--meio) 8%,transparent);
+  border-radius:10px;padding:11px 13px;font-size:12.5px;line-height:1.45}
+.caixa-alerta.vaga{border-color:color-mix(in srgb,var(--alerta) 35%,var(--border));background:color-mix(in srgb,var(--alerta) 8%,transparent)}
+.comp{font-size:13px;line-height:1.6;color:var(--fg)}
+.comp ol{margin:0;padding-left:20px}
+.comp li{margin-bottom:5px}
+details.comp-env{border:1px solid var(--border);border-radius:10px;overflow:hidden}
+details.comp-env summary{padding:10px 13px;cursor:pointer;font-size:13px;font-weight:600;background:var(--surface-2);list-style:none}
+details.comp-env summary::-webkit-details-marker{display:none}
+details.comp-env summary::after{content:"ver o texto ▾";float:right;font-weight:400;font-size:11.5px;color:var(--fg-muted)}
+details.comp-env[open] summary::after{content:"recolher ▴"}
+details.comp-env .dentro{padding:13px}
+.familia{font-size:12px;color:var(--fg-muted);margin:0 0 9px}
+.art{border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:8px}
+.art > summary{padding:9px 13px;cursor:pointer;font-size:12.5px;background:var(--surface-2);list-style:none;
+  display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.art > summary::-webkit-details-marker{display:none}
+.art > summary::after{content:"\25BE";margin-left:auto;color:var(--fg-muted);font-size:11px}
+.art[open] > summary::after{content:"\25B4"}
+.art .num{font-family:var(--fonte-codigo);font-size:11.5px;color:var(--accent);font-weight:500;flex:none}
+.art .rot{font-weight:600}
+.art .quem{color:var(--fg-muted);font-weight:400;font-size:11.5px}
+.art .dentro{padding:12px 14px;font-size:12.5px;line-height:1.55}
+.art .caput{margin:0 0 9px;color:var(--fg-muted)}
+.art ol{margin:0;padding-left:20px}
+.art ol li{margin-bottom:5px}
+.art ul.alin{margin:4px 0 0;padding-left:17px;color:var(--fg-muted)}
+.art p.obs{margin:9px 0 0;font-size:11.5px;color:var(--fg-muted)}
+.art.principal{border-color:color-mix(in srgb,var(--accent) 32%,var(--border))}
+.art.principal > summary{background:var(--accent-soft)}
+.fonte-ri{font-size:11.5px;color:var(--fg-muted);margin:11px 0 0;padding-top:9px;border-top:1px solid var(--border)}
+.nada{font-size:12.5px;color:var(--fg-muted);font-style:italic}
+
+/* ---------- toast e rodapé ---------- */
+.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,16px);background:var(--accent);color:var(--accent-fg);
+  padding:10px 18px;border-radius:999px;font-size:13.5px;font-weight:600;box-shadow:var(--sombra-modal);
+  opacity:0;pointer-events:none;transition:.2s;z-index:80;max-width:88vw;text-align:center}
+.toast.ativo{opacity:1;transform:translate(-50%,0)}
+footer{border-top:1px solid var(--border);background:var(--surface);padding:22px 0;font-size:12px;color:var(--fg-muted)}
+footer .interno{display:flex;flex-direction:column;gap:14px}
+footer .assina{font-size:11.5px}
+.fontes{display:flex;gap:10px;flex-wrap:wrap;align-items:stretch}
+.tag-fonte{display:flex;flex-direction:column;gap:2px;border:1px solid var(--border);border-left:4px solid var(--cor,var(--accent));
+  border-radius:9px;padding:9px 13px;background:var(--surface-2);min-width:230px}
+.tag-fonte .tf-rot{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;font-weight:700;color:var(--fg-muted)}
+.tag-fonte .tf-val{font-size:13px;font-weight:700;color:var(--fg);line-height:1.3}
+.tag-fonte .tf-quando{font-family:var(--fonte-codigo);font-size:11.5px;color:var(--fg-muted)}
+.fontes .ressalva{flex-basis:100%;font-size:11.5px;color:var(--fg-muted);line-height:1.45;margin:0}
+@media (max-width:720px){
+  .modulo{border-left:0;padding-left:0}
+  .cx{width:100%}
+  .og-netos{max-width:none;width:100%}
+  .cx.raiz{width:100%}
+  .og-filhos{flex-direction:column;align-items:center}
+  .og-rail{display:none}
+  .linha-b{grid-template-columns:104px 1fr 40px}
+}
+</style>
+</head>
+<body>
+
+<header class="topo">
+  <div class="interno">
+    <button class="marca" id="ir-raiz" type="button" aria-label="Voltar ao topo do organograma">
+      <span>
+        <span class="marca-nome"><b>SPU</b><span>Organograma</span></span>
+        <span class="marca-autoria">CGGES — Escritório de Processos</span>
+      </span>
+      <span class="marca-barras" aria-hidden="true">
+        <i style="height:9px;background:var(--marca-1)"></i>
+        <i style="height:15px;background:var(--marca-2)"></i>
+        <i style="height:20px;background:var(--marca-3)"></i>
+        <i style="height:13px;background:var(--marca-4)"></i>
+        <i style="height:7px;background:var(--marca-1)"></i>
+      </span>
+    </button>
+    <div class="modulo">
+      <strong>Quem está onde</strong>
+      <span>Secretaria do Patrimônio da União</span>
+    </div>
+    <div class="topo-dir">
+      <button class="btn-icone" id="tema" type="button" aria-label="Alternar tema claro e escuro" title="Tema">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"></path></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="barra">
+  <div class="interno">
+    <div class="abas" role="tablist">
+      <button class="aba" role="tab" aria-selected="true"  data-vista="org">Organograma</button>
+      <button class="aba" role="tab" aria-selected="false" data-vista="painel">Painel</button>
+    </div>
+    <div class="busca">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+      <input id="q" type="search" autocomplete="off" placeholder="Buscar pessoa, sigla ou unidade…"
+             aria-label="Buscar pessoa, sigla ou unidade">
+      <button class="limpa" id="limpa" type="button" aria-label="Limpar busca" hidden>&times;</button>
+      <div class="resultados" id="res" role="listbox"></div>
+    </div>
+  </div>
+</div>
+
+<main class="interno">
+
+  <section id="vista-org">
+    <nav class="caminho" id="caminho" aria-label="Caminho na estrutura"></nav>
+    <div class="og" id="og"></div>
+  </section>
+
+  <section id="vista-painel" hidden></section>
+</main>
+
+<div class="fundo" id="fundo" role="dialog" aria-modal="true" aria-labelledby="modal-titulo">
+  <div class="modal" id="modal"></div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<footer>
+  <div class="interno">
+    <div class="fontes" id="rodape-fonte"></div>
+    <span class="assina">CGGES — Escritório de Processos · Secretaria do Patrimônio da União</span>
+  </div>
+</footer>
+
+<script src="dados-organograma.js"></script>
+<script>
+(function(){
+"use strict";
+var META = window.META_ORG || {}, UN = window.UNIDADES || [], PE = window.PESSOAS || [], PF = window.PERFIL || {};
+var GE = window.GERAIS || {}, ARTS = GE.artigos || {};
+var SUPS = "__sups__";
+
+/* ---------- índices ---------- */
+var porId = {}, filhos = {}, porPessoa = {}, lotadosDe = {};
+UN.forEach(function(u){ porId[u.id] = u; });
+UN.forEach(function(u){ if(u.pai){ (filhos[u.pai] = filhos[u.pai] || []).push(u); } });
+PE.forEach(function(p){ porPessoa[p.id] = p; if(p.u){ (lotadosDe[p.u] = lotadosDe[p.u] || []).push(p); } });
+Object.keys(filhos).forEach(function(k){ filhos[k].sort(function(a,b){
+  if(a.nivel !== b.nivel) return a.nivel - b.nivel;
+  return a.sigla.localeCompare(b.sigla,"pt-BR");
+}); });
+var RAIZ = UN.filter(function(u){ return !u.pai; })[0];
+var porSigla = {};
+UN.forEach(function(u){
+  /* sigla não é única (CGATE, DIAP): para a grande estrutura vale a do nível 2 */
+  var atual = porSigla[u.sigla];
+  if(!atual || u.nivel < atual.nivel) porSigla[u.sigla] = u;
+});
+var SUPLIST = (filhos[RAIZ ? RAIZ.id : ""] || []).filter(function(u){ return u.tipo === "SUP"; });
+var SEDE = (filhos[RAIZ ? RAIZ.id : ""] || []).filter(function(u){ return u.tipo !== "SUP"; });
+
+function semAcento(s){ return (s||"").normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase(); }
+function subarvore(id){
+  var r = [], f = filhos[id] || [];
+  f.forEach(function(k){ r.push(k); r = r.concat(subarvore(k.id)); });
+  return r;
+}
+function cadeia(u){
+  var c = [], x = u;
+  while(x){ c.unshift(x); x = porId[x.pai]; }
+  return c;
+}
+/* O organograma vem do Portal da Transparência; o painel, da base da CGADM.
+   São bases diferentes: filtro de painel não alcança o organograma, não por regra
+   escrita, mas porque não há o que cruzar. */
+function lotadosVis(uid){ return lotadosDe[uid] || []; }
+function totalRamo(id){
+  return subarvore(id).reduce(function(a,u){ return a + lotadosVis(u.id).length; }, lotadosVis(id).length);
+}
+function chefeDe(u){ return (u.chefes||[]).map(function(i){ return porPessoa[i]; }).filter(Boolean)[0]; }
+function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,function(c){
+  return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+
+/* ---------- utilidades de tela ---------- */
+var elToast = document.getElementById("toast"), tToast;
+function toast(msg){
+  elToast.textContent = msg; elToast.classList.add("ativo");
+  clearTimeout(tToast); tToast = setTimeout(function(){ elToast.classList.remove("ativo"); }, 2600);
+}
+function copiar(txt, msg){
+  var ok = function(){ toast(msg); };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(ok, function(){ fallback(); });
+  } else { fallback(); }
+  function fallback(){
+    var a = document.createElement("textarea");
+    a.value = txt; a.setAttribute("readonly",""); a.style.position="fixed"; a.style.opacity="0";
+    document.body.appendChild(a); a.select();
+    try{ document.execCommand("copy"); ok(); }catch(e){ toast("Não foi possível copiar"); }
+    document.body.removeChild(a);
+  }
+}
+
+/* ---------- datas ---------- */
+var MESES = ["janeiro","fevereiro","março","abril","maio","junho",
+             "julho","agosto","setembro","outubro","novembro","dezembro"];
+function mesBR(iso){
+  var m = /^(\d{4})-(\d{2})$/.exec(String(iso||""));
+  return m ? MESES[+m[2]-1] + " de " + m[1] : (iso || "?");
+}
+function brDate(iso){
+  if(!iso || !/^\d{4}-\d{2}-\d{2}$/.test(iso)) return iso || "?";
+  var p = iso.split("-"); return p[2] + "/" + p[1] + "/" + p[0];
+}
+function tagFonte(rotulo, valor, quando, slot){
+  return '<div class="tag-fonte" data-slot="' + slot + '">' +
+    '<span class="tf-rot">' + esc(rotulo) + "</span>" +
+    '<span class="tf-val">' + esc(valor) + "</span>" +
+    '<span class="tf-quando">' + esc(quando) + "</span></div>";
+}
+/* As fontes mudam com a aba: no painel, SIORG e Transparência não se aplicam. */
+function desenhaFontes(vista){
+  var el = document.getElementById("rodape-fonte");
+  if(!el) return;
+  if(vista === "painel"){
+    el.innerHTML = tagFonte("Perfil da força de trabalho", "Base da CGADM",
+                            brDate(META.dataPainel), 2) +
+      '<p class="ressalva">Os números podem não bater com os do organograma: as origens são diferentes.</p>';
+  } else {
+    el.innerHTML =
+      tagFonte("Estrutura e competências", "Dados do SIORG", brDate(META.dataEstrutura), 1) +
+      tagFonte("Pessoas e servidores", "Portal da Transparência — dados abertos",
+               mesBR(META.mesReferencia || META.dataPessoas), 3) +
+      '<p class="ressalva">' + (META.unidades||0) + " unidades e " + (META.pessoas||0) +
+      " pessoas.</p>";
+  }
+}
+
+/* ---------- caixa do organograma ---------- */
+function pinChefia(u){
+  if(u.chefiaEstado === "vaga")          return '<span class="pin vaga">chefia vaga</span>';
+  if(u.chefiaEstado === "indeterminada") return '<span class="pin indef">chefia a confirmar</span>';
+  return "";
+}
+function caixaHTML(u, raiz){
+  var ch = chefeDe(u), nf = (filhos[u.id]||[]).length;
+  var vis = lotadosVis(u.id).length;
+  var linhaChefe = ch
+    ? '<span class="chefe">' + esc(u.cargoChefia||"Chefia") + ': <b>' + esc(ch.nome) + '</b></span>'
+    : '<span class="chefe">' + esc(u.cargoChefia||"Chefia") + ': —</span>';
+  return '<button class="cx' + (raiz ? " raiz" : "") + '" data-abre="' + esc(u.id) + '" type="button">' +
+    '<span class="sigla">' + esc(u.sigla) + '</span>' +
+    '<span class="nome">' + esc(u.nomeSiorg) + '</span>' + linhaChefe +
+    '<span class="rodape">' +
+      '<span class="pin gente">' + vis + (vis === 1 ? " pessoa" : " pessoas") + '</span>' +
+      pinChefia(u) +
+      (nf ? '<span class="pin">' + nf + (nf === 1 ? " subunidade" : " subunidades") + '</span>' : "") +
+      (nf ? '<span class="abre">abrir &rsaquo;</span>' : "") +
+    '</span>' +
+  '</button>';
+}
+function caixaGrupoSups(){
+  var tot = SUPLIST.reduce(function(a,u){ return a + totalRamo(u.id); }, 0);
+  var vag = SUPLIST.filter(function(u){ return u.chefiaEstado === "vaga"; }).length;
+  return '<button class="cx" data-abre="' + SUPS + '" type="button">' +
+    '<span class="sigla">SPU-UF</span>' +
+    '<span class="nome">' + SUPLIST.length + ' Superintendências estaduais</span>' +
+    '<span class="chefe">Um mesmo molde repetido nos estados, em quatro variações</span>' +
+    '<span class="rodape"><span class="pin gente">' + tot + ' pessoas</span>' +
+    (vag ? '<span class="pin vaga">' + vag + ' sem titular</span>' : "") +
+    '<span class="abre">abrir &rsaquo;</span></span></button>';
+}
+
+/* ---------- vista organograma ---------- */
+var foco = RAIZ ? RAIZ.id : null;
+var elOg = document.getElementById("og"), elCaminho = document.getElementById("caminho");
+
+function desenhaOrg(){
+  if(!RAIZ){
+    elOg.innerHTML = '<div class="aviso"><svg viewBox="0 0 24 24"><path d="M12 3 2 21h20L12 3Z"></path>' +
+      '<path d="M12 9v5m0 3v.01"></path></svg><div><b>Os dados não carregaram.</b> Esta tela lê o arquivo ' +
+      '<code>dados-organograma.js</code>, que precisa estar na mesma pasta. Se abrir direto pelo Finder não ' +
+      'funcionar, sirva a pasta: <code>python3 -m http.server 8777</code> e abra ' +
+      '<code>http://localhost:8777/prototipo-organograma.html</code>.</div></div>';
+    return;
+  }
+
+  /* caminho */
+  var trilha = [];
+  if(foco === SUPS){
+    trilha = [{ id: RAIZ.id, sigla: RAIZ.sigla }, { id: SUPS, sigla: "Superintendências" }];
+  } else {
+    trilha = cadeia(porId[foco]).map(function(u){ return { id: u.id, sigla: u.sigla }; });
+    if(porId[foco] && porId[foco].tipo === "SUP"){ trilha.splice(1, 0, { id: SUPS, sigla: "Superintendências" }); }
+  }
+  elCaminho.innerHTML = trilha.map(function(t,i){
+    var ult = i === trilha.length - 1;
+    return (ult ? '<span class="atual">' + esc(t.sigla) + "</span>"
+                : '<button type="button" data-vai="' + esc(t.id) + '">' + esc(t.sigla) + "</button>") +
+           (ult ? "" : '<span>›</span>');
+  }).join("");
+
+  /* grupo das superintendências */
+  if(foco === SUPS){
+    elOg.innerHTML = '<div class="grade-uf">' + SUPLIST.map(function(u){ return caixaHTML(u,false); }).join("") + "</div>";
+    return;
+  }
+
+  var u = porId[foco], fs;
+  if(u.id === RAIZ.id){
+    fs = SEDE.slice();
+  } else {
+    fs = (filhos[u.id] || []).slice();
+  }
+
+  var html = '<div class="og-raiz">' + caixaHTML(u,true) + "</div>";
+  var caixas = fs.map(function(k){
+    var netos = (filhos[k.id] || []);
+    return '<div class="og-ramo' + (fs.length === 1 && !(u.id===RAIZ.id) ? " solo" : "") + '">' + caixaHTML(k,false) +
+      (netos.length && netos.length <= 8
+        ? '<div class="og-netos">' + netos.map(function(n){
+            return '<button class="neto" type="button" data-abre="' + esc(n.id) + '">' + esc(n.sigla) + "</button>"; }).join("") + "</div>"
+        : "") + "</div>";
+  });
+  if(u.id === RAIZ.id){ caixas.push('<div class="og-ramo">' + caixaGrupoSups() + "</div>"); }
+
+  if(caixas.length > 6){
+    html += '<div class="og-grade">' + caixas.join("") + "</div>";
+  } else if(caixas.length){
+    html += '<div class="og-rail" id="rail"><div class="trave" id="trave"></div></div>';
+    html += '<div class="og-filhos" id="filhos">' + caixas.join("") + "</div>";
+  } else {
+    html += '<p class="nada" style="text-align:center;margin-top:16px">Esta unidade não tem subunidades.</p>';
+  }
+  elOg.innerHTML = '<div class="' + (caixas.length > 6 ? "" : "og-palco") + '">' + html + "</div>";
+  ajustaTrave();
+}
+function ajustaTrave(){
+  var fs = document.getElementById("filhos"), tv = document.getElementById("trave");
+  if(!fs || !tv) return;
+  var ramos = fs.querySelectorAll(":scope > .og-ramo");
+  if(ramos.length < 2){ tv.style.display = "none"; return; }
+  var base = fs.getBoundingClientRect();
+  var a = ramos[0].getBoundingClientRect(), b = ramos[ramos.length-1].getBoundingClientRect();
+  var ini = (a.left + a.width/2) - base.left, fim = (b.left + b.width/2) - base.left;
+  var rail = document.getElementById("rail");
+  rail.style.width = base.width + "px";
+  tv.style.display = "block"; tv.style.left = ini + "px"; tv.style.width = Math.max(0, fim - ini) + "px";
+}
+window.addEventListener("resize", ajustaTrave);
+
+function vaiPara(id){
+  foco = id;
+  mostra("org");
+  desenhaOrg();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+elOg.addEventListener("click", function(e){
+  var b = e.target.closest("[data-abre]");
+  if(!b) return;
+  var id = b.getAttribute("data-abre");
+  if(id === SUPS){ vaiPara(SUPS); return; }
+  var u = porId[id];
+  if(!u) return;
+  if(b.classList.contains("neto")){ abreFicha(id); return; }
+  if(b.classList.contains("raiz")){ abreFicha(id); return; }
+  if((filhos[id] || []).length){ vaiPara(id); } else { abreFicha(id); }
+});
+elCaminho.addEventListener("click", function(e){
+  var b = e.target.closest("[data-vai]");
+  if(b) vaiPara(b.getAttribute("data-vai"));
+});
+document.getElementById("ir-raiz").addEventListener("click", function(){ vaiPara(RAIZ.id); });
+
+/* ---------- ficha da unidade ---------- */
+var elFundo = document.getElementById("fundo"), elModal = document.getElementById("modal"), ultimoFoco = null;
+
+function pessoaHTML(p, chefia){
+  /* Na base pública a pessoa tem só nome e função comissionada. */
+  var sob = [p.ativ, p.cargo, p.sit].filter(Boolean).join(" · ");
+  return '<div class="pes' + (chefia ? " chefia" : "") + '">' +
+    '<span class="pn">' + esc(p.nome) +
+      (sob ? '<span class="pc">' + esc(sob) + "</span>" : "") +
+    "</span>" +
+    '<span class="acoes">' +
+      '<button class="mini teams" type="button" data-copia-nome="' + esc(p.nome) + '">Copiar nome</button>' +
+    "</span></div>";
+}
+function listaItens(incisos){
+  if(!incisos || !incisos.length) return "";
+  var numerados = incisos.filter(function(i){ return i.num; });
+  if(!numerados.length){
+    return "<p style='margin:0'>" + esc(incisos[0].texto) + "</p>";
+  }
+  return "<ol>" + numerados.map(function(i){
+    return "<li>" + esc(i.texto) +
+      (i.alineas && i.alineas.length
+        ? '<ul class="alin">' + i.alineas.map(function(a){ return "<li>" + esc(a) + "</li>"; }).join("") + "</ul>"
+        : "") + "</li>";
+  }).join("") + "</ol>";
+}
+function blocoArtigo(op){
+  /* op: {num, rotulo, quem, corpo, aberto, principal, obs} */
+  return '<details class="art' + (op.principal ? " principal" : "") + '"' + (op.aberto ? " open" : "") + ">" +
+    "<summary>" +
+      '<span class="num">Art. ' + esc(op.num) + "</span>" +
+      '<span class="rot">' + esc(op.rotulo) + "</span>" +
+      (op.quem ? '<span class="quem">' + esc(op.quem) + "</span>" : "") +
+    "</summary>" +
+    '<div class="dentro">' + op.corpo + (op.obs ? '<p class="obs">' + op.obs + "</p>" : "") + "</div>" +
+  "</details>";
+}
+function competenciaHTML(u){
+  var h = "", temAlgo = false;
+
+  /* 1. artigo próprio da unidade, quando o Regimento lhe dá um */
+  if(u.artigoProprio){
+    var a = u.artigoProprio;
+    h += blocoArtigo({
+      num: a.artigo, rotulo: "Competência própria", quem: "no Regimento Interno",
+      aberto: true, principal: true,
+      corpo: '<p class="caput">' + esc(a.caput) + "</p>" + listaItens(a.incisos) +
+             (a.paragrafos && a.paragrafos.length
+               ? '<p class="obs">' + a.paragrafos.map(esc).join("<br>") + "</p>" : "")
+    });
+    temAlgo = true;
+  } else if(u.competencia){
+    /* 2. sem artigo próprio: o texto que o SIORG registra */
+    var itens = u.competencia.split(/(?=\b(?:[IVXL]+|[a-z])\s*[-–)]\s)/).map(function(x){ return x.trim(); })
+                .filter(function(x){ return x.length > 2; });
+    var corpo = itens.length > 1
+      ? "<ol>" + itens.map(function(x){ return "<li>" + esc(x.replace(/^(?:[IVXL]+|[a-z])\s*[-–)]\s*/,"")) + "</li>"; }).join("") + "</ol>"
+      : "<p style='margin:0'>" + esc(u.competencia) + "</p>";
+    h += blocoArtigo({
+      num: "—", rotulo: "Competência registrada no SIORG", aberto: true, principal: true, corpo: corpo,
+      obs: u.repetida > 1 ? "Mesmo texto em <b>" + u.repetida + " unidades</b>: é função replicada, não redação própria desta caixa." : ""
+    });
+    temAlgo = true;
+  }
+
+  /* 3. competências gerais por tipo de unidade */
+  var gerais = (u.gerais || []).filter(function(g){ return g.artigo !== "112"; });
+  if(gerais.length){
+    h += '<p class="familia">Esta unidade não tem competência caso a caso para tudo o que faz: boa parte vem das ' +
+         '<b>competências gerais</b> do Regimento, definidas por tipo de unidade.</p>';
+    gerais.forEach(function(g){
+      var a = ARTS[g.artigo];
+      if(!a) return;
+      var corpo, rotulo = "Competências gerais", num = g.artigo;
+      if(g.artigo === "110" && g.inciso){
+        var inc = (a.incisos || []).filter(function(i){ return i.num === g.inciso; })[0];
+        var outros = (a.incisos || []).filter(function(i){ return i.num !== g.inciso && i.tema; })
+                       .map(function(i){ return i.tema; });
+        num = "110, " + g.inciso;
+        rotulo = g.tema || "Competências gerais";
+        corpo = '<p class="caput">' + esc(a.caput) + "</p>" +
+          (inc ? "<p style='margin:0 0 6px'><b>" + esc(inc.num) + " — " + esc(inc.texto) + "</b></p>" +
+                 (inc.alineas && inc.alineas.length
+                   ? '<ul class="alin">' + inc.alineas.map(function(x){ return "<li>" + esc(x) + "</li>"; }).join("") + "</ul>"
+                   : "") : "") +
+          (outros.length ? '<p class="obs">O artigo tem ' + (a.incisos||[]).length +
+             " incisos; os outros tratam de " + esc(outros.join(", ")) + "." +
+             (g.origemDoTema === "nome da unidade"
+               ? " <b>O inciso foi deduzido do nome da unidade</b>, porque o SIORG não registra competência para ela — conferir." : "") +
+             "</p>" : "");
+      } else {
+        corpo = '<p class="caput">' + esc(a.caput) + "</p>" + listaItens(a.incisos) +
+          (a.paragrafos && a.paragrafos.length ? '<p class="obs">' + a.paragrafos.map(esc).join("<br>") + "</p>" : "");
+      }
+      h += blocoArtigo({ num: num, rotulo: rotulo, quem: "aplica-se a: " + g.rotulo, corpo: corpo,
+                         aberto: !temAlgo && g.artigo === "110" });
+      temAlgo = true;
+    });
+  }
+
+  if(!temAlgo){
+    h += '<div class="caixa-alerta">O Regimento Interno não traz competência própria nem competência geral ' +
+         "para esta unidade, e o SIORG também não registra nenhuma.</div>";
+  }
+
+  /* 4. atribuição do dirigente, em nota */
+  var a112 = (u.gerais || []).filter(function(g){ return g.artigo === "112"; })[0];
+  if(a112 && ARTS["112"]){
+    h += '<p class="fonte-ri"><b>Art. 112</b> — ' + esc(ARTS["112"].caput) + "</p>";
+  }
+  h += '<p class="fonte-ri">Fonte: ' + esc(GE.fonteRotulo || "Regimento Interno da SPU") +
+       ". " + esc(GE.versao || "") + ". " + esc(GE.aviso || "") + "</p>";
+  return h;
+}
+function chefiaHTML(u){
+  var ch = chefeDe(u);
+  if(ch) return pessoaHTML(ch, true);
+  if(!u.cargoChefia) return '<p class="nada">Sem cargo de chefia previsto no SIORG.</p>';
+  if(u.chefiaEstado === "indeterminada"){
+    var cands = (u.chefiaCandidatos||[]).map(function(i){ return porPessoa[i]; }).filter(Boolean);
+    return '<div class="caixa-alerta"><b>Chefia a confirmar.</b> O SIORG prevê o cargo de ' +
+      esc(u.cargoChefia) + ', mas o dado aberto não lança ninguém nesta caixa: a função aparece registrada na ' +
+      'unidade superior. Provavelmente a chefia existe e é ' +
+      (cands.length ? "<b>" + cands.map(function(p){ return esc(p.nome); }).join("</b> ou <b>") + "</b>" : "uma das pessoas acima") +
+      ' — confirmar antes de usar.</div>' +
+      cands.map(function(p){ return pessoaHTML(p,false); }).join("");
+  }
+  return '<div class="caixa-alerta vaga"><b>Chefia vaga.</b> O SIORG prevê o cargo de ' + esc(u.cargoChefia) +
+    ' e o Portal da Transparência não registra ninguém com essa função, aqui nem na unidade superior. ' +
+    'Para assunto desta unidade, procure a chefia imediatamente acima.</div>';
+}
+function abreFicha(id){
+  var u = porId[id];
+  if(!u) return;
+  ultimoFoco = document.activeElement;
+  var lot = lotadosVis(id).slice().sort(function(a,b){
+    if(a.chefe !== b.chefe) return a.chefe ? -1 : 1;
+    if(!!a.func !== !!b.func) return a.func ? -1 : 1;
+    return a.nome.localeCompare(b.nome,"pt-BR");
+  });
+  var chId = (u.chefes||[])[0];
+  var equipe = lot.filter(function(p){ return p.id !== chId; });
+  var cad = cadeia(u), acima = cad.slice(0,-1).map(function(x){ return x.sigla; }).join(" › ");
+  var nf = (filhos[id]||[]).length;
+  var ocultos = 0;
+
+  elModal.innerHTML =
+    '<div class="modal-topo">' +
+      "<div>" +
+        '<div class="sigla">' + (acima ? esc(acima) + " &rsaquo; " : "") + "<b>" + esc(u.sigla) + "</b></div>" +
+        '<h2 id="modal-titulo">' + esc(u.nomeSiorg) + "</h2>" +
+        '<div class="sub">' + esc(u.cargoChefia || "sem cargo de chefia") +
+          (u.codigoChefia ? " · " + esc(u.codigoChefia) : "") +
+          " · nível " + esc(u.nivel) + " · " +
+          (ocultos ? lot.length + " de " + (u.lotados||0) : (u.lotados||0)) + " lotados" +
+          (nf ? " · " + nf + (nf===1?" subunidade":" subunidades") : "") +
+        "</div>" +
+        (u.nomeRi && u.nomeRi !== u.nomeSiorg
+          ? '<div class="sub">No Regimento Interno: ' + esc(u.nomeRi) + "</div>" : "") +
+      "</div>" +
+      '<button class="fechar" type="button" id="x" aria-label="Fechar">&times;</button>' +
+    "</div>" +
+    '<div class="modal-corpo">' +
+      '<div class="sec"><h4>Chefia</h4>' + chefiaHTML(u) + "</div>" +
+      '<div class="sec"><h4>Equipe — ' + equipe.length + (equipe.length===1?" pessoa":" pessoas") +
+        (ocultos ? " <span style=\'text-transform:none;letter-spacing:0;font-weight:400\'>· " + ocultos +
+                   " fora do filtro</span>" : "") + "</h4>" +
+        (equipe.length
+          ? equipe.map(function(p){ return pessoaHTML(p,false); }).join("") +
+            '<div class="ferramentas" style="margin:11px 0 0">' +
+              '<button class="btn" type="button" id="copia-equipe">Copiar os nomes da unidade</button></div>'
+          : '<p class="nada">Nenhuma pessoa lotada nesta caixa no dado aberto de ' + esc(mesBR(META.mesReferencia || META.dataPessoas)) +
+            ". Em coordenações e diretorias isso é esperado: as pessoas estão nas subunidades.</p>") +
+      "</div>" +
+      (nf ? '<div class="sec"><h4>Subunidades</h4>' + (filhos[id]||[]).map(function(k){
+          return '<button class="li" type="button" data-ficha="' + esc(k.id) + '">' +
+            '<span class="s">' + esc(k.sigla) + "</span>" +
+            '<span class="n">' + esc(k.nomeSiorg) + "</span>" +
+            '<span class="m">' + (k.lotados||0) + " pes.</span></button>"; }).join("") + "</div>" : "") +
+      '<div class="sec"><h4>O que esta unidade faz</h4>' + competenciaHTML(u) + "</div>" +
+    "</div>";
+  elFundo.classList.add("ativo");
+  document.body.style.overflow = "hidden";
+  var x = document.getElementById("x");
+  if(x) x.focus();
+}
+function fechaFicha(){
+  elFundo.classList.remove("ativo");
+  document.body.style.overflow = "";
+  if(ultimoFoco && ultimoFoco.focus) ultimoFoco.focus();
+}
+elFundo.addEventListener("click", function(e){
+  if(e.target === elFundo){ fechaFicha(); return; }
+  if(e.target.closest("#x")){ fechaFicha(); return; }
+  var cn = e.target.closest("[data-copia-nome]");
+  if(cn){ copiar(cn.getAttribute("data-copia-nome"), "Nome copiado — cole na busca do Teams"); return; }
+  var ce = e.target.closest("#copia-equipe");
+  if(ce){
+    var tit = elModal.querySelector("#modal-titulo").textContent;
+    var nomes = Array.prototype.map.call(elModal.querySelectorAll(".pes .pn"), function(n){
+      return n.childNodes[0].textContent.trim(); });
+    copiar(nomes.join("\n"), nomes.length + " nomes de " + tit + " copiados");
+    return;
+  }
+  var f = e.target.closest("[data-ficha]");
+  if(f){ abreFicha(f.getAttribute("data-ficha")); }
+});
+document.addEventListener("keydown", function(e){
+  if(e.key === "Escape"){
+    if(elFundo.classList.contains("ativo")) fechaFicha();
+    else if(document.getElementById("res").classList.contains("ativo")) fechaRes();
+  }
+  if((e.key === "/" || (e.key === "k" && (e.metaKey || e.ctrlKey))) && !/^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName)){
+    e.preventDefault(); document.getElementById("q").focus();
+  }
+});
+
+/* ---------- busca ---------- */
+var elQ = document.getElementById("q"), elRes = document.getElementById("res"), elLimpa = document.getElementById("limpa");
+var idxPes = PE.map(function(p){ return { p:p, k: semAcento(p.nome) }; });
+var idxUni = UN.map(function(u){ return { u:u, k: semAcento(u.sigla + " " + u.nomeSiorg + " " + (u.nomeRi||"")) }; });
+
+function fechaRes(){ elRes.classList.remove("ativo"); elRes.innerHTML = ""; }
+function busca(){
+  var t = semAcento(elQ.value.trim());
+  elLimpa.hidden = !elQ.value;
+  if(t.length < 2){ fechaRes(); return; }
+  var pes = idxPes.filter(function(x){ return x.k.indexOf(t) >= 0; }).slice(0,8);
+  var uni = idxUni.filter(function(x){ return x.k.indexOf(t) >= 0; }).slice(0,8);
+  var h = "";
+  if(uni.length){
+    h += '<div class="res-grupo">Unidades</div>' + uni.map(function(x){
+      var u = x.u, ch = chefeDe(u);
+      return '<button class="res-item" type="button" data-u="' + esc(u.id) + '">' +
+        "<span><span class='r-nome'>" + esc(u.sigla) + " — " + esc(u.nomeSiorg) + "</span>" +
+        "<span class='r-sub'>" + (u.lotados||0) + " lotados · " +
+        (ch ? esc(u.cargoChefia) + ": " + esc(ch.nome) : esc(u.chefiaEstado === "vaga" ? "chefia vaga" : "chefia a confirmar")) +
+        "</span></span></button>"; }).join("");
+  }
+  if(pes.length){
+    h += '<div class="res-grupo">Pessoas</div>' + pes.map(function(x){
+      var p = x.p, u = porId[p.u];
+      return '<button class="res-item" type="button" data-p="' + p.id + '">' +
+        "<span><span class='r-nome'>" + esc(p.nome) + "</span><span class='r-sub'>" +
+        esc([p.ativ].concat(p.cargo ? [p.cargo] : []).filter(Boolean).join(" · ")) +
+        (u ? (p.ativ ? " · " : "") + esc(u.sigla) + " — " + esc(u.nomeSiorg) : "") +
+        "</span></span></button>"; }).join("");
+  }
+  elRes.innerHTML = h || '<div class="res-vazio">Nada encontrado para <b>' + esc(elQ.value) + "</b>.</div>";
+  elRes.classList.add("ativo");
+}
+elQ.addEventListener("input", busca);
+elQ.addEventListener("focus", busca);
+elLimpa.addEventListener("click", function(){ elQ.value = ""; elLimpa.hidden = true; fechaRes(); elQ.focus(); });
+/* A busca não só encontra: ela leva até a caixa.
+   Unidade com subunidades vira a raiz da tela; folha aparece destacada entre as irmãs. */
+function vaiParaCaixa(uid, abrir){
+  var u = porId[uid];
+  if(!u) return;
+  var temFilhos = (filhos[uid] || []).length > 0;
+  if(u.tipo === "SUP") foco = SUPS;
+  else if(temFilhos) foco = uid;
+  else foco = u.pai || uid;
+  mostra("org");
+  desenhaOrg();
+  var cx = elOg.querySelector('.cx[data-abre="' + uid + '"]');
+  if(cx){
+    cx.scrollIntoView({ block: "center", inline: "center", behavior: "smooth" });
+    cx.classList.add("achada");
+    setTimeout(function(){ cx.classList.remove("achada"); }, 2200);
+  }
+  if(abrir) abreFicha(uid);
+}
+elRes.addEventListener("click", function(e){
+  var b = e.target.closest("[data-u],[data-p]");
+  if(!b) return;
+  var uid = b.getAttribute("data-u"), ehPessoa = false;
+  if(!uid){ var pp = porPessoa[+b.getAttribute("data-p")]; uid = pp && pp.u; ehPessoa = true; }
+  if(!uid) return;
+  fechaRes();
+  elQ.blur();
+  vaiParaCaixa(uid, ehPessoa);   /* pessoa abre a ficha; sigla só mostra a caixa */
+});
+document.addEventListener("click", function(e){
+  if(!e.target.closest(".busca")) fechaRes();
+});
+
+/* ---------- vista painel ---------- */
+/* ---------- painel: microdado anônimo, filtros cruzados ---------- */
+var MI = window.MICRO || {dims:{}, linhas:[], campos:[]};
+/* A versão pública não traz microdado nem perfil: sem painel, sem filtros.
+   A página não esconde nada — ela só não recebe. */
+var TEM_PAINEL = !!(MI.linhas && MI.linhas.length);
+var IDX = {};
+(MI.campos || []).forEach(function(c,i){ IDX[c] = i; });
+
+var FILTROS = {};   /* {campo: [códigos]} ou {_especial: true} */
+
+function ehTele(codigo){ return (MI.dims.gestao || [])[codigo].indexOf("TELE") === 0; }
+function ehExterno(codigo){ return (MI.dims.origem || [])[codigo] !== "Do quadro da SPU"; }
+
+var ESPECIAIS = {
+  teletrabalho: { rotulo: "em teletrabalho", testa: function(l){ return ehTele(l[IDX.gestao]); } },
+  externo:      { rotulo: "de outros órgãos", testa: function(l){ return ehExterno(l[IDX.origem]); } },
+  chefia:       { rotulo: "com função de chefia", testa: function(l){ return l[IDX.chefia] === 1; } },
+  abono:        { rotulo: "com abono de permanência", testa: function(l){ return l[IDX.abono] === 1; } }
+};
+
+/* um filtro especial age sobre a dimensão listada aqui: o cartão daquela dimensão
+   precisa ignorá-lo também, senão filtra a si mesmo */
+var DIM_DO_ESPECIAL = { teletrabalho: "gestao", externo: "origem", chefia: null, abono: null };
+
+function temFiltro(){ return Object.keys(FILTROS).length > 0; }
+function passa(l, exceto){
+  for(var k in FILTROS){
+    if(!FILTROS.hasOwnProperty(k)) continue;
+    if(ESPECIAIS[k]){
+      if(exceto && DIM_DO_ESPECIAL[k] === exceto) continue;
+      if(!ESPECIAIS[k].testa(l)) return false;
+      continue;
+    }
+    if(k === exceto) continue;
+    if(FILTROS[k].indexOf(l[IDX[k]]) < 0) return false;
+  }
+  return true;
+}
+/* `exceto` deixa de fora o filtro da própria dimensão: é o que mantém as outras
+   barras do cartão visíveis e clicáveis depois de escolher uma. */
+function linhasFiltradas(exceto){
+  if(!temFiltro()) return MI.linhas;
+  return MI.linhas.filter(function(l){ return passa(l, exceto); });
+}
+
+function redesenhaTudo(){
+  if(TEM_PAINEL && !document.getElementById("vista-painel").hidden) desenhaPainel();
+}
+function alterna(campo, codigo){
+  if(ESPECIAIS[campo]){
+    if(FILTROS[campo]) delete FILTROS[campo]; else FILTROS[campo] = true;
+  } else {
+    var a = FILTROS[campo] || [];
+    var i = a.indexOf(codigo);
+    if(i >= 0) a.splice(i,1); else a.push(codigo);
+    if(a.length) FILTROS[campo] = a; else delete FILTROS[campo];
+  }
+  redesenhaTudo();
+}
+function limpaFiltros(){ FILTROS = {}; redesenhaTudo(); }
+
+function contaPor(campo, linhas){
+  var c = {};
+  linhas.forEach(function(l){ var v = l[IDX[campo]]; c[v] = (c[v]||0)+1; });
+  return c;
+}
+
+/* ordem fixa das faixas; as demais dimensões ordenam por tamanho no conjunto inteiro */
+var ORDEM_FAIXA = ["menos de 30","30 a 39","40 a 49","50 a 59","60 a 69","70 ou mais"];
+
+function ordemDaDimensao(campo, limite){
+  var total = contaPor(campo, MI.linhas);
+  var cods = Object.keys(total).map(Number);
+  if(campo === "faixa"){
+    cods.sort(function(a,b){
+      return ORDEM_FAIXA.indexOf(MI.dims.faixa[a]) - ORDEM_FAIXA.indexOf(MI.dims.faixa[b]); });
+  } else {
+    cods.sort(function(a,b){ return total[b] - total[a]; });
+    if(limite) cods = cods.slice(0, limite);
+  }
+  return { cods: cods, total: total };
+}
+
+function cartaoBarras(op){
+  /* op: {campo, titulo, legenda, slot, limite} */
+  var o = ordemDaDimensao(op.campo, op.limite);
+  var sel = contaPor(op.campo, linhasFiltradas(op.campo));
+  var escala = Math.max.apply(null, o.cods.map(function(c){ return o.total[c]; })) || 1;
+  var ehDimensaoFiltrada = !!(FILTROS[op.campo] ||
+      Object.keys(FILTROS).some(function(k){ return ESPECIAIS[k] && DIM_DO_ESPECIAL[k] === op.campo; }));
+  var ativos = FILTROS[op.campo] || [];
+  var linhas = o.cods.map(function(c){
+    var rot = MI.dims[op.campo][c], tot = o.total[c], vis = sel[c] || 0;
+    var ligado = ativos.indexOf(c) >= 0;
+    var pctTot = Math.round(tot / MI.linhas.length * 1000)/10;
+    var est = (op.campo === "diretoria" && porSigla[rot]) ? porSigla[rot].id : "";
+    return '<button class="linha-b' + (ligado ? " ligada" : "") + '" type="button"' +
+      ' data-campo="' + esc(op.campo) + '" data-cod="' + c + '"' +
+      (est ? ' data-estrutura="' + esc(est) + '"' : "") +
+      ' title="' + esc(rot) + ": " + tot + " de " + MI.linhas.length + " (" + pctTot + '%)">' +
+      '<span class="rot">' + esc(rot.toLowerCase()) + "</span>" +
+      '<span class="trilha"><span class="fantasma" style="width:' + (tot/escala*100) + '%"></span>' +
+      '<span class="fita" style="width:' + (vis/escala*100) + '%"></span></span>' +
+      '<span class="qt">' + vis + "</span></button>";
+  }).join("");
+  return '<div class="cartao" data-slot="' + op.slot + '">' +
+    "<h3>" + esc(op.titulo) + "</h3>" +
+    '<p class="leg">' + op.legenda +
+      (ehDimensaoFiltrada ? ' <b>Os números deste cartão ignoram o filtro dele mesmo</b>, para você poder trocar de escolha.' : "") +
+    "</p>" +
+    '<div class="barras">' + linhas + "</div></div>";
+}
+
+var QUADRO = null;   /* id da unidade aberta no quadro lateral */
+
+function chipsHTML(){
+  var c = [];
+  Object.keys(FILTROS).forEach(function(k){
+    if(ESPECIAIS[k]){
+      c.push('<button class="chip" type="button" data-esp="' + k + '">' +
+        esc(ESPECIAIS[k].rotulo) + "<i>&times;</i></button>");
+    } else {
+      FILTROS[k].forEach(function(cod){
+        c.push('<button class="chip" type="button" data-campo="' + esc(k) +
+          '" data-cod="' + cod + '">' + esc(MI.dims[k][cod].toLowerCase()) + "<i>&times;</i></button>");
+      });
+    }
+  });
+  return c;
+}
+function quadroHTML(){
+  var u = porId[QUADRO];
+  if(!u) return "";
+  var fs = (filhos[u.id] || []).slice().sort(function(a,b){ return (b.lotados||0) - (a.lotados||0); });
+  var cad = cadeia(u);
+  var trilha = cad.map(function(x, i){
+    return i === cad.length - 1
+      ? '<b>' + esc(x.sigla) + "</b>"
+      : '<button type="button" data-quadro="' + esc(x.id) + '">' + esc(x.sigla) + "</button><span>›</span>";
+  }).join("");
+  var corpo;
+  if(fs.length){
+    corpo = fs.map(function(k){
+      var ch = chefeDe(k), nf = (filhos[k.id] || []).length, ramo = totalRamo(k.id);
+      return '<button class="q-linha" type="button" data-quadro="' + esc(k.id) + '">' +
+        '<span class="qs">' + esc(k.sigla) + "</span>" +
+        '<span class="qn">' + esc(k.nomeSiorg) +
+          "<small>" + (ch ? esc(ch.nome) : (k.chefiaEstado === "vaga" ? "chefia vaga" : "chefia a confirmar")) + "</small></span>" +
+        '<span class="qq"><b>' + (k.lotados||0) + "</b> aqui" +
+          (nf ? "<br>" + ramo + " no ramo · " + nf + (nf===1?" sub":" subs") : "") + "</span>" +
+      "</button>";
+    }).join("");
+  } else {
+    corpo = '<p class="q-vazio">Esta unidade não tem subunidades. Clique no nome para abrir a ficha.</p>';
+  }
+  return '<div class="cartao quadro" data-slot="8">' +
+    '<div class="q-topo"><h3>' + esc(u.sigla) + "</h3>" +
+      '<button class="fechar-q" type="button" id="fecha-quadro" aria-label="Fechar o quadro">&times;</button></div>' +
+    '<p class="q-trilha">' + trilha + "</p>" +
+    '<p class="leg" style="margin:0 0 9px">' + esc(u.nomeSiorg) + " · <b>" + totalRamo(u.id) +
+      "</b> pessoas no ramo, <b>" + (u.lotados||0) + "</b> nesta caixa" +
+      (META.foraDoOrganograma ? " — <b>sem estagiários</b>, por isso o número é menor que o do indicador acima" : "") +
+      ".</p>" +
+    '<div>' + corpo + "</div>" +
+    '<p class="leg" style="margin:11px 0 0"><button class="btn" type="button" data-ficha-q="' + esc(u.id) +
+      '">Abrir a ficha de ' + esc(u.sigla) + "</button></p>" +
+  "</div>";
+}
+
+function desenhaPainel(){
+  var el = document.getElementById("vista-painel");
+  var sel = linhasFiltradas(), n = sel.length, N = MI.linhas.length;
+  var dimSit = MI.dims.situacao || [], dimSexo = MI.dims.sexo || [];
+  var codProprio = dimSit.indexOf("ATIVO PERMANENTE"), codFem = dimSexo.indexOf("FEMININO");
+
+  function conta(fn){ var k=0; sel.forEach(function(l){ if(fn(l)) k++; }); return k; }
+  var proprio = conta(function(l){ return l[IDX.situacao] === codProprio; });
+  var externo = conta(function(l){ return ehExterno(l[IDX.origem]); });
+  var tele    = conta(function(l){ return ehTele(l[IDX.gestao]); });
+  var chefia  = conta(function(l){ return l[IDX.chefia] === 1; });
+  var abono   = conta(function(l){ return l[IDX.abono] === 1; });
+  var fem     = conta(function(l){ return l[IDX.sexo] === codFem; });
+  var idades  = sel.map(function(l){ return l[IDX.idade]; }).sort(function(a,b){ return a-b; });
+  var media   = idades.length ? Math.round(idades.reduce(function(a,b){ return a+b; },0)/idades.length*10)/10 : "—";
+  var mediana = idades.length ? idades[Math.floor(idades.length/2)] : "—";
+  var pct = function(v){ return n ? Math.round(v/n*100) + "%" : "—"; };
+
+  function tile(op){
+    /* op: {v, rot, det, campo, slot} */
+    var ligado = op.campo && FILTROS[op.campo];
+    return '<button class="kpi' + (ligado ? " ligado" : "") + (op.campo ? "" : " inerte") + '"' +
+      ' type="button" data-slot="' + (op.slot||1) + '"' + (op.campo ? ' data-esp="' + op.campo + '"' : " disabled") + ">" +
+      '<span class="v">' + op.v + "</span>" +
+      '<span class="r">' + esc(op.rot) + "</span>" +
+      '<span class="d">' + op.det + "</span></button>";
+  }
+
+  /* fita de filtros ativos */
+  var chips = chipsHTML();
+
+  el.innerHTML =
+    '<div class="filtros' + (chips.length ? " ativo" : "") + '">' +
+      (chips.length
+        ? '<span class="selo-filtro">filtrando</span>' +
+          '<span class="fl">Mostrando <b>' + n + "</b> de <b>" + N + "</b> pessoas</span>" + chips.join("") +
+          '<button class="btn primario limpar" type="button" id="limpar">Limpar filtros</button>'
+        : '<span class="fl">Clique num indicador ou numa barra para filtrar. Os cartões se cruzam entre si; o organograma não é afetado.</span>') +
+    "</div>" +
+
+    '<div class="kpis">' +
+      tile({v:n, rot:"pessoas" + (temFiltro() ? " no filtro" : " na SPU"),
+            det: temFiltro() ? Math.round(n/N*100) + "% do total" : "", slot:1}) +
+      tile({v:proprio, rot:"do quadro próprio", det:pct(proprio) + " do recorte", campo:null, slot:2}) +
+      tile({v:externo, rot:"de outros órgãos", det:pct(externo) + " do recorte", campo:"externo", slot:5}) +
+      tile({v:media, rot:"idade média", det:"mediana " + mediana, slot:1}) +
+      tile({v:abono, rot:"com abono de permanência", det:pct(abono) + " já podem se aposentar", campo:"abono", slot:4}) +
+      tile({v:tele, rot:"em teletrabalho", det:pct(tele) + " parcial ou integral", campo:"teletrabalho", slot:7}) +
+      tile({v:chefia, rot:"com função de chefia", det:(META.chefiasVagas||0) + " vagas · " + (META.chefiasIndeterminadas||0) + " a confirmar", campo:"chefia", slot:3}) +
+      tile({v:fem, rot:"mulheres", det:pct(fem) + " do recorte", slot:6}) +
+    "</div>" +
+
+    '<div class="paineis">' +
+      cartaoBarras({campo:"faixa", slot:1, titulo:"Faixa de idade",
+        legenda:"Metade do corpo está acima de " + mediana + " anos."}) +
+      cartaoBarras({campo:"situacao", slot:2, titulo:"Situação funcional",
+        legenda:"Quem é do quadro e quem chega por exercício, cessão ou requisição."}) +
+      cartaoBarras({campo:"escolaridade", slot:3, titulo:"Escolaridade",
+        legenda:"Formação declarada na base da CGADM."}) +
+      cartaoBarras({campo:"gestao", slot:7, titulo:"Programa de gestão",
+        legenda:"O presencial é minoria na Secretaria."}) +
+      cartaoBarras({campo:"uf", slot:6, titulo:"Onde estão", limite:14,
+        legenda:"Por UF de exercício. As 14 maiores."}) +
+      cartaoBarras({campo:"cargo", slot:4, titulo:"Cargos",
+        legenda:"Os 12 maiores; o resto em “outros cargos”."}) +
+      cartaoBarras({campo:"origem", slot:5, titulo:"Órgãos de origem",
+        legenda:"De onde vêm as pessoas requisitadas e em exercício."}) +
+      cartaoBarras({campo:"diretoria", slot:8, titulo:"Por grande estrutura", limite:16,
+        legenda:"Diretorias e superintendências. Clique para ver as subunidades ao lado. As menores " +
+                "que " + (MI.piso||10) + " pessoas entram juntas num só item."}) +
+      (QUADRO ? quadroHTML() : "") +
+    "</div>" +
+    '<p class="nota-micro">' +
+      esc(MI.nota || "") + "</p>";
+}
+
+/* ---------- cliques na barra de filtro do organograma ---------- */
+/* ---------- cliques do painel ---------- */
+if(TEM_PAINEL) document.getElementById("vista-painel").addEventListener("click", function(e){
+  if(e.target.closest("#limpar")){ limpaFiltros(); return; }
+  var esp = e.target.closest("[data-esp]");
+  if(esp){ alterna(esp.getAttribute("data-esp")); return; }
+  if(e.target.closest("#fecha-quadro")){ QUADRO = null; desenhaPainel(); return; }
+  var fq = e.target.closest("[data-ficha-q]");
+  if(fq){ abreFicha(fq.getAttribute("data-ficha-q")); return; }
+  var q = e.target.closest("[data-quadro]");
+  if(q){ QUADRO = q.getAttribute("data-quadro"); desenhaPainel(); return; }
+  var b = e.target.closest("[data-campo]");
+  if(b){
+    var est = b.getAttribute("data-estrutura");
+    if(est) QUADRO = est;
+    alterna(b.getAttribute("data-campo"), +b.getAttribute("data-cod"));
+  }
+});
+
+/* ---------- abas ---------- */
+function mostra(v){
+  if(v === "painel" && !TEM_PAINEL) v = "org";
+  ["org","painel"].forEach(function(k){
+    var sec = document.getElementById("vista-" + k);   /* a pública não tem painel */
+    if(sec) sec.hidden = (k !== v);
+  });
+  Array.prototype.forEach.call(document.querySelectorAll(".aba"), function(b){
+    b.setAttribute("aria-selected", String(b.getAttribute("data-vista") === v));
+  });
+  if(v === "painel") desenhaPainel();
+  if(v === "org") desenhaOrg();
+  desenhaFontes(v);
+}
+Array.prototype.forEach.call(document.querySelectorAll(".aba"), function(b){
+  b.addEventListener("click", function(){ mostra(b.getAttribute("data-vista")); });
+});
+
+/* ---------- tema ---------- */
+document.getElementById("tema").addEventListener("click", function(){
+  var atual = document.documentElement.getAttribute("data-theme");
+  var escuro = atual ? atual === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+  document.documentElement.setAttribute("data-theme", escuro ? "light" : "dark");
+  try{ localStorage.setItem("org-tema", escuro ? "light" : "dark"); }catch(e){}
+  if(!document.getElementById("vista-org").hidden) ajustaTrave();
+});
+try{ var tm = localStorage.getItem("org-tema"); if(tm) document.documentElement.setAttribute("data-theme", tm); }catch(e){}
+
+/* ---------- partida ---------- */
+if(!TEM_PAINEL){
+  var abaPainel = document.querySelector('.aba[data-vista="painel"]');
+  if(abaPainel) abaPainel.hidden = true;
+  var secPainel = document.getElementById("vista-painel");
+  if(secPainel) secPainel.remove();
+}
+desenhaOrg();
+desenhaFontes("org");
+})();
+</script>
+</body>
+</html>
