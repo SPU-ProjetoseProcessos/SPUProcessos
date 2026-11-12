@@ -2641,6 +2641,42 @@
   "artefatos": []
  },
  {
+  "id": 210,
+  "codigo": "F08.010",
+  "nome": "Inscrição de Ocupação",
+  "descricao": "Regime de outorga administrativa que reconhece situação de fato de utilização comprovada de imóvel público, a título precário e resolúvel, sem finalidade determinada. Obs.: No âmbito da União, pressupõe o efetivo aproveitamento do terreno pelo ocupante, nos termos do regulamento, gerando obrigação de pagamento anual da taxa de ocupação.",
+  "macroNome": "Destinação de imóveis",
+  "macroTipo": "Finalístico",
+  "mapeado": "Mapeado",
+  "unidade": "DEDES",
+  "dono": "CGDIN",
+  "categoria": "Processo",
+  "validado": "Não",
+  "versao": "V1.0",
+  "publicacao": "12/11/2026",
+  "linkWeb": "https://spu-projetoseprocessos.github.io/InscricaoDeOcupacaoV1-0/",
+  "pdf": null,
+  "normas": [
+   {
+    "t": "Lei 9.636 de 15/05/2026",
+    "u": "https://memoria-spu.gestao.gov.br/legislacao-e-normativos/lei-no-9-636-de-15-de-maio-de-1998-2/"
+   },
+   {
+    "t": "Decreto-Lei nº 9.760 de 05/09/1946",
+    "u": "https://memoria-spu.gestao.gov.br/legislacao-e-normativos/decreto-lei-n-9-760-de-5-de-setembro-de-1946/"
+   },
+   {
+    "t": "Instrução Normativa nº 4 de 14/08/2018",
+    "u": "https://memoria-spu.gestao.gov.br/legislacao-e-normativos/instrucao-normativa-spu-no-4-de-14-de-agosto-de-2018/"
+   },
+   {
+    "t": "Portaria SPU/ME nº 9.220 de 02/08/2021",
+    "u": "https://memoria-spu.gestao.gov.br/legislacao-e-normativos/portaria-spu-me-no-9-220-de-02-de-agosto-de-2021/"
+   }
+  ],
+  "artefatos": []
+ },
+ {
   "id": 11,
   "codigo": "F02.003",
   "nome": "Levantamento Físico-Territorial",
