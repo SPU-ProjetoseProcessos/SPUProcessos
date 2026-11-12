@@ -2622,25 +2622,6 @@
   "artefatos": []
  },
  {
-  "id": 64,
-  "codigo": "F08.010",
-  "nome": "Inscrição de ocupação",
-  "descricao": "Inscrição de ocupação",
-  "macroNome": "Destinação de imóveis",
-  "macroTipo": "Finalístico",
-  "mapeado": "Em andamento",
-  "unidade": "DEDES",
-  "dono": "CGDIN",
-  "categoria": "Processo",
-  "validado": "Não",
-  "versao": null,
-  "publicacao": null,
-  "linkWeb": null,
-  "pdf": null,
-  "normas": [],
-  "artefatos": []
- },
- {
   "id": 210,
   "codigo": "F08.010",
   "nome": "Inscrição de Ocupação",
