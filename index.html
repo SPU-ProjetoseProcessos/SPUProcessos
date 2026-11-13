@@ -426,7 +426,8 @@
 
 <footer class="rodape">
   <div class="interno">
-    <span class="credito"><small>Desenvolvido por</small><b>CGGES — Escritório de Processos</b>Secretaria do Patrimônio da União</span>
+    <span class="credito"><small>Desenvolvido por</small><b><a href="https://spu-projetoseprocessos.github.io/escritorio/" title="Conheça o Escritório de Processos" style="color:inherit;text-decoration:underline;text-underline-offset:3px">CGGES — Escritório de Processos</a></b>Secretaria do Patrimônio da União</span>
+    <button type="button" id="fale-equipe" style="font:inherit;font-size:13.5px;font-weight:700;padding:7px 14px;border-radius:8px;border:1.5px solid currentColor;background:none;color:inherit;cursor:pointer;">Fale com a equipe</button>
     <span id="quando"></span>
   </div>
 </footer>
@@ -906,5 +907,7 @@ iniciar();
   } catch (e) { /* sem data é melhor que data errada */ }
 })();
 </script>
+<script src="spu-caixinha.js?v=1"></script>
+<script>SPUCaixinha.iniciar({ ferramenta: "spuprocessos", nome: "SPUProcessos", botao: "#fale-equipe" });</script>
 </body>
 </html>
