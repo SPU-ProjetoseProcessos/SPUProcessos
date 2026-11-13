@@ -2188,19 +2188,32 @@
   "id": 100,
   "codigo": "F10.001",
   "nome": "Gestão de Contratos de Destinação",
-  "descricao": "Controle, fiscalização, regularização e conclusão dos contratos de destinação",
+  "descricao": "Controle, fiscalização, regularização e conclusão dos contratos de destinação.",
   "macroNome": "Gestão de Contratos de Destinação",
   "macroTipo": "Finalístico",
   "mapeado": "Mapeado",
   "unidade": "DEGOV",
   "dono": "CGGES",
   "categoria": "Processo",
-  "validado": "Não",
-  "versao": "V1.0",
-  "publicacao": null,
-  "linkWeb": "https://spu-projetoseprocessos.github.io/GestaoContratosDestinacaoV1-0/#list",
+  "validado": "Sim",
+  "versao": "V3.0",
+  "publicacao": "13/11/2026",
+  "linkWeb": "https://spu-projetoseprocessos.github.io/GestaodeContratosV3-0/#diagram/88096828-2be5-4480-a7f6-ecd9ef67b4fc",
   "pdf": null,
-  "normas": [],
+  "normas": [
+   {
+    "t": "Lei nº 9.636/1998",
+    "u": "https://memoria-spu.gestao.gov.br/legislacao-e-normativos/lei-no-9-636-de-15-de-maio-de-1998-2/"
+   },
+   {
+    "t": "Decreto-Lei n° 9.760/1946",
+    "u": "https://memoria-spu.gestao.gov.br/legislacao-e-normativos/decreto-lei-n-9-760-de-5-de-setembro-de-1946/"
+   },
+   {
+    "t": "ON GEAPN 004/2001",
+    "u": "https://memoria-spu.gestao.gov.br/legislacao-e-normativos/portaria-no-213-de-28-de-novembro-de-2001/"
+   }
+  ],
   "artefatos": []
  },
  {
