@@ -178,6 +178,11 @@ main{padding:22px 0 56px}
 .li .m{font-size:12px;color:var(--fg-muted);flex:none}
 
 /* ---------- painel ---------- */
+.visoes{display:inline-flex;gap:4px;background:var(--surface-2);border:1px solid var(--border);
+  border-radius:10px;padding:3px;margin-bottom:14px}
+.visao{background:none;border:0;border-radius:8px;padding:7px 14px;font-size:13px;font-weight:600;color:var(--fg-muted)}
+.visao b{font-family:var(--fonte-codigo);font-weight:600}
+.visao[aria-current="true"]{background:var(--surface);color:var(--accent);box-shadow:var(--sombra)}
 .filtros{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:16px;padding:10px 12px;
   border:1px solid var(--border);border-radius:11px;background:var(--surface)}
 .filtros .fl{font-size:12.5px;color:var(--fg-muted)}
@@ -961,6 +966,19 @@ var IDX = {};
 (MI.campos || []).forEach(function(c,i){ IDX[c] = i; });
 
 var FILTROS = {};   /* {campo: [códigos]} ou {_especial: true} */
+/* O painel abre só com servidores. Estagiário tem recorte próprio, no botão do topo. */
+var VISAO = "servidores";
+function ehEstagiario(l){ return IDX.estagiario != null && l[IDX.estagiario] === 1; }
+function baseVisao(){
+  if(IDX.estagiario == null) return MI.linhas;
+  var quer = (VISAO === "estagiarios");
+  return MI.linhas.filter(function(l){ return ehEstagiario(l) === quer; });
+}
+function trocaVisao(v){
+  if(VISAO === v) return;
+  VISAO = v; FILTROS = {}; QUADRO = null;   /* recortes não se transferem entre as visões */
+  desenhaPainel();
+}
 
 function ehTele(codigo){ return (MI.dims.gestao || [])[codigo].indexOf("TELE") === 0; }
 function ehExterno(codigo){ return (MI.dims.origem || [])[codigo] !== "Do quadro da SPU"; }
@@ -993,8 +1011,9 @@ function passa(l, exceto){
 /* `exceto` deixa de fora o filtro da própria dimensão: é o que mantém as outras
    barras do cartão visíveis e clicáveis depois de escolher uma. */
 function linhasFiltradas(exceto){
-  if(!temFiltro()) return MI.linhas;
-  return MI.linhas.filter(function(l){ return passa(l, exceto); });
+  var base = baseVisao();
+  if(!temFiltro()) return base;
+  return base.filter(function(l){ return passa(l, exceto); });
 }
 
 function redesenhaTudo(){
@@ -1023,7 +1042,7 @@ function contaPor(campo, linhas){
 var ORDEM_FAIXA = ["menos de 30","30 a 39","40 a 49","50 a 59","60 a 69","70 ou mais"];
 
 function ordemDaDimensao(campo, limite){
-  var total = contaPor(campo, MI.linhas);
+  var total = contaPor(campo, baseVisao());
   var cods = Object.keys(total).map(Number);
   if(campo === "faixa"){
     cods.sort(function(a,b){
@@ -1046,12 +1065,12 @@ function cartaoBarras(op){
   var linhas = o.cods.map(function(c){
     var rot = MI.dims[op.campo][c], tot = o.total[c], vis = sel[c] || 0;
     var ligado = ativos.indexOf(c) >= 0;
-    var pctTot = Math.round(tot / MI.linhas.length * 1000)/10;
+    var pctTot = Math.round(tot / Math.max(1, baseVisao().length) * 1000)/10;
     var est = (op.campo === "diretoria" && porSigla[rot]) ? porSigla[rot].id : "";
     return '<button class="linha-b' + (ligado ? " ligada" : "") + '" type="button"' +
       ' data-campo="' + esc(op.campo) + '" data-cod="' + c + '"' +
       (est ? ' data-estrutura="' + esc(est) + '"' : "") +
-      ' title="' + esc(rot) + ": " + tot + " de " + MI.linhas.length + " (" + pctTot + '%)">' +
+      ' title="' + esc(rot) + ": " + tot + " de " + baseVisao().length + " (" + pctTot + '%)">' +
       '<span class="rot">' + esc(rot.toLowerCase()) + "</span>" +
       '<span class="trilha"><span class="fantasma" style="width:' + (tot/escala*100) + '%"></span>' +
       '<span class="fita" style="width:' + (vis/escala*100) + '%"></span></span>' +
@@ -1085,7 +1104,7 @@ function chipsHTML(){
 function quadroHTML(){
   var u = porId[QUADRO];
   if(!u) return "";
-  var fs = (filhos[u.id] || []).slice().sort(function(a,b){ return (b.lotados||0) - (a.lotados||0); });
+  var fs = (filhos[u.id] || []).slice().sort(function(a,b){ return totalRamo(b.id) - totalRamo(a.id); });
   var cad = cadeia(u);
   var trilha = cad.map(function(x, i){
     return i === cad.length - 1
@@ -1094,14 +1113,14 @@ function quadroHTML(){
   }).join("");
   var corpo;
   if(fs.length){
+    /* Só o número da unidade inteira. Quem quiser o detalhe abre e vê cada subunidade. */
     corpo = fs.map(function(k){
-      var ch = chefeDe(k), nf = (filhos[k.id] || []).length, ramo = totalRamo(k.id);
+      var nf = (filhos[k.id] || []).length;
       return '<button class="q-linha" type="button" data-quadro="' + esc(k.id) + '">' +
         '<span class="qs">' + esc(k.sigla) + "</span>" +
         '<span class="qn">' + esc(k.nomeSiorg) +
-          "<small>" + (ch ? esc(ch.nome) : (k.chefiaEstado === "vaga" ? "chefia vaga" : "chefia a confirmar")) + "</small></span>" +
-        '<span class="qq"><b>' + (k.lotados||0) + "</b> aqui" +
-          (nf ? "<br>" + ramo + " no ramo · " + nf + (nf===1?" sub":" subs") : "") + "</span>" +
+          (nf ? "<small>" + nf + (nf === 1 ? " subunidade" : " subunidades") + "</small>" : "") + "</span>" +
+        '<span class="qq"><b>' + totalRamo(k.id) + "</b></span>" +
       "</button>";
     }).join("");
   } else {
@@ -1112,9 +1131,7 @@ function quadroHTML(){
       '<button class="fechar-q" type="button" id="fecha-quadro" aria-label="Fechar o quadro">&times;</button></div>' +
     '<p class="q-trilha">' + trilha + "</p>" +
     '<p class="leg" style="margin:0 0 9px">' + esc(u.nomeSiorg) + " · <b>" + totalRamo(u.id) +
-      "</b> pessoas no ramo, <b>" + (u.lotados||0) + "</b> nesta caixa" +
-      (META.foraDoOrganograma ? " — <b>sem estagiários</b>, por isso o número é menor que o do indicador acima" : "") +
-      ".</p>" +
+      "</b> pessoas.</p>" +
     '<div>' + corpo + "</div>" +
     '<p class="leg" style="margin:11px 0 0"><button class="btn" type="button" data-ficha-q="' + esc(u.id) +
       '">Abrir a ficha de ' + esc(u.sigla) + "</button></p>" +
@@ -1123,7 +1140,7 @@ function quadroHTML(){
 
 function desenhaPainel(){
   var el = document.getElementById("vista-painel");
-  var sel = linhasFiltradas(), n = sel.length, N = MI.linhas.length;
+  var sel = linhasFiltradas(), n = sel.length, N = baseVisao().length;
   var dimSit = MI.dims.situacao || [], dimSexo = MI.dims.sexo || [];
   var codProprio = dimSit.indexOf("ATIVO PERMANENTE"), codFem = dimSexo.indexOf("FEMININO");
 
@@ -1152,7 +1169,16 @@ function desenhaPainel(){
   /* fita de filtros ativos */
   var chips = chipsHTML();
 
-  el.innerHTML =
+  var nEst = MI.estagiarios || 0, nSer = MI.servidores || 0;
+  var seletor = (IDX.estagiario == null || !nEst) ? "" :
+    '<div class="visoes" role="group" aria-label="Quem o painel mostra">' +
+      '<button class="visao" type="button" data-visao="servidores"' +
+        (VISAO === "servidores" ? ' aria-current="true"' : "") + ">Servidores <b>" + nSer + "</b></button>" +
+      '<button class="visao" type="button" data-visao="estagiarios"' +
+        (VISAO === "estagiarios" ? ' aria-current="true"' : "") + ">Estagiários <b>" + nEst + "</b></button>" +
+    "</div>";
+
+  el.innerHTML = seletor +
     '<div class="filtros' + (chips.length ? " ativo" : "") + '">' +
       (chips.length
         ? '<span class="selo-filtro">filtrando</span>' +
@@ -1162,7 +1188,7 @@ function desenhaPainel(){
     "</div>" +
 
     '<div class="kpis">' +
-      tile({v:n, rot:"pessoas" + (temFiltro() ? " no filtro" : " na SPU"),
+      tile({v:n, rot:(VISAO === "estagiarios" ? "estagiários" : "servidores") + (temFiltro() ? " no filtro" : ""),
             det: temFiltro() ? Math.round(n/N*100) + "% do total" : "", slot:1}) +
       tile({v:proprio, rot:"do quadro próprio", det:pct(proprio) + " do recorte", campo:null, slot:2}) +
       tile({v:externo, rot:"de outros órgãos", det:pct(externo) + " do recorte", campo:"externo", slot:5}) +
@@ -1200,6 +1226,8 @@ function desenhaPainel(){
 /* ---------- cliques na barra de filtro do organograma ---------- */
 /* ---------- cliques do painel ---------- */
 if(TEM_PAINEL) document.getElementById("vista-painel").addEventListener("click", function(e){
+  var vb = e.target.closest("[data-visao]");
+  if(vb){ trocaVisao(vb.getAttribute("data-visao")); return; }
   if(e.target.closest("#limpar")){ limpaFiltros(); return; }
   var esp = e.target.closest("[data-esp]");
   if(esp){ alterna(esp.getAttribute("data-esp")); return; }
@@ -1256,6 +1284,6 @@ desenhaFontes("org");
 })();
 </script>
 <script src="../spu-caixinha.js?v=1"></script>
-<script>SPUCaixinha.iniciar({ ferramenta: "organograma", nome: "SPUOrganograma", botao: "#fale-equipe" });</script>
+<script>if (window.SPUCaixinha) SPUCaixinha.iniciar({ ferramenta: "organograma", nome: "SPUOrganograma", botao: "#fale-equipe" });</script>
 </body>
 </html>
